@@ -55,6 +55,7 @@ At Examinato, we're redefining the way you learn, assess, and engage with quizze
   - MongoDB.
 - **For Frontend:**
   - React.js
+  - Tailwind CSS
 
 ## Installation to your local machine
 - Fork this repository
