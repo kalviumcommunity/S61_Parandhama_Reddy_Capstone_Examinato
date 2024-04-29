@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const uri = process.env.MONGODB_URI;
 const port = 8000;
+const router = require('./routes');
 
 app.use(express.json());
 
@@ -16,5 +17,7 @@ mongoose.connect(uri)
 app.listen(port, () => {
   console.log(`app is listening at http://localhost:${port}`);
 });
+
+app.use('/api', router);
 
 module.exports = app;
