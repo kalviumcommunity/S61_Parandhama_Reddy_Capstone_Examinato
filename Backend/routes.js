@@ -4,9 +4,14 @@ const QuizModel = require("./Model/model");
 
 router.post("/postquiz", async (req, res) => {
   try {
-    const quiz = new QuizModel(req.body);
-    await quiz.save();
-    res.status(201).send(quiz);
+    const quizzes = req.body;
+    const savedQuizzes = [];
+    for (const quizData of quizzes) {
+      const quiz = new QuizModel(quizData);
+      const savedQuiz = await quiz.save();
+      savedQuizzes.push(savedQuiz);
+    }
+    res.status(201).send(savedQuizzes);
   } catch (err) {
     res.status(400).send(err);
   }
@@ -42,5 +47,18 @@ router.put("/updatequiz/:id", async (req, res) => {
     res.status(500).send(err);
   }
 });
+
+router.delete("/deletequiz/:id", async (req, res) => {
+  const quizId = req.params.id;
+  try {
+    const deletedQuiz = await QuizModel.findByIdAndDelete(quizId);
+    if (!deletedQuiz) {
+      return res.status(404).send("Quiz not found");
+    }
+    res.send(deletedQuiz);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
 
 module.exports = router;
