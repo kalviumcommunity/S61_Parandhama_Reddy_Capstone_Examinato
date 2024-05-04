@@ -11,6 +11,11 @@ app.post('/send',(req,res)=>{
     res.send(req.body)
 })
 
+
+app.put('/update',(req,res)=>{
+  res.send('this is put request')
+})
+
 app.listen(port,()=>{
     console.log(`app is listening at http://localhost:${port}`);
 })
