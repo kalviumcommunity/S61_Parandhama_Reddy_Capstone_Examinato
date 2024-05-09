@@ -1,24 +1,35 @@
-const express = require('express')
-const app = express()
-const port = 8000
+const express = require("express");
+const app = express();
+require("dotenv").config()
+const mongoose = require("mongoose")
+const uri = process.env.MONGODB_URI
+const port = 8000;
+const router = require("./routes");
 
-app.use(express.json())
-app.get('/recieve', (req, res) => {
-  res.send('This is get request')
-})
+app.use(express.json());
 
-app.post('/send',(req,res)=>{
-    res.send(req.body)
-})
+mongoose.connect(uri)
+  .then(() => {
+    console.log("connected to mongodb");
+  })
+  .catch((err) => console.error(`Error in connecting: ${err}`));
 
+app.get("/recieve", (req, res) => {
+  res.send("This is get request");
+});
 
-app.put('/update',(req,res)=>{
-  res.send('this is put request')
-})
+app.post("/send", (req, res) => {
+  res.send(req.body);
+});
 
-app.listen(port,()=>{
-    console.log(`app is listening at http://localhost:${port}`);
-})
+app.put("/update", (req, res) => {
+  res.send("this is put request");
+});
 
+app.listen(port, () => {
+  console.log(`app is listening at http://localhost:${port}`);
+});
 
-module.exports = app
+app.use("/api", router);
+
+module.exports = app;
