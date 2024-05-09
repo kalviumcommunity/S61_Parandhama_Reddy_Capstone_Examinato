@@ -9,5 +9,4 @@ const quizSchema = joi.object({
     correctAnswer: joi.string().required()
 })
 
-const validationModel = mongoose.model("data",quizSchema)
-module.exports = validationModel
+module.exports = quizSchema;
