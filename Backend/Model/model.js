@@ -4,10 +4,8 @@ const quizSchema = new mongoose.Schema({
     type:String,
     title:String,
     question:String,
-    option1:String,
-    option2:String,
-    option3:String,
-    option4:String
+    options:Array,
+    correctAnswer:String
 })
 
 const quizModel = mongoose.model("data",quizSchema)
