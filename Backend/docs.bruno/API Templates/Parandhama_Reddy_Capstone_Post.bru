@@ -1,0 +1,27 @@
+meta {
+  name: Parandhama_Reddy_Capstone_Post
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/postquiz
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": 66,
+      "type": "UPSC",
+      "title": "General Knowledge",
+      "question": "Which Indian state is known as the 'Garden City of India'?",
+      "options": [
+        "Kerala",
+        "Karnataka",
+        "Andhra Pradesh",
+        "Tamil Nadu"
+      ],
+      "correctAnswer": "Karnataka"
+    }
+}
