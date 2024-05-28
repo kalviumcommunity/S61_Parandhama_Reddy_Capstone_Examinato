@@ -11,7 +11,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   const handleSignInClick = () => {
-    navigate('/signin');
+    navigate('/login');
   };
 
   const handleGetStartedClick = () => {
@@ -28,7 +28,7 @@ const LandingPage = () => {
         backgroundSize: "auto",
       }}
     >
-      <div className="flex justify-between m-10">
+      <div className="flex justify-between px-14 py-10">
         <img src={logo} alt="Logo" className="h-[50px]" />
         <div className="flex gap-10 text-[20px]">
           <p>About</p>

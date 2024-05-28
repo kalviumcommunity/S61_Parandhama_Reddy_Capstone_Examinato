@@ -9,6 +9,8 @@ import LoginForm from "./Form/LoginForm";
 import SigninForm from "./Form/SigninForm";
 import LandingPage from "./Pages/LandingPage";
 import Homepage from "./Components/Homepage";
+import PinVerification from "./Components/PinVerification";
+import Quizzes from "./Components/Quizzes";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -32,7 +34,7 @@ function App() {
 
   return (
     <>
-      {location.pathname !== "/" && <Navbar />}
+      {location.pathname !== "/"}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
@@ -49,6 +51,8 @@ function App() {
           path="/quiz-preview"
           element={<QuizPreview questions={questions} />}
         />
+        <Route path="/pin-verification" element={<PinVerification />} />
+        <Route path="/quizzes" element={<Quizzes />} />
       </Routes>
     </>
   );
