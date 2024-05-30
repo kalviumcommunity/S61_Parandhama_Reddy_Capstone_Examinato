@@ -1,73 +1,40 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const QuizPreview = ({ questions }) => {
-  const [quizzes, setQuizzes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const fetchQuizzes = (topic) => {
-    setIsLoading(true);
-
-    // Simulate fetching quizzes with mock data
-    setTimeout(() => {
-      const mockQuizzes = [
-        { id: 1, question: 'Mock Question 1', options: ['Option A', 'Option B', 'Option C'] },
-        { id: 2, question: 'Mock Question 2', options: ['Option D', 'Option E', 'Option F'] },
-      ];
-      setQuizzes(mockQuizzes);
-      setIsLoading(false);
-    }, 1000);
-  };
-
-  const handleJoinQuiz = (topic) => {
-    fetchQuizzes(topic);
-  };
-
-  const buttonStyle = {
-    width: '100%',
-    maxWidth: '300px',
-    padding: '8px 16px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '20px',
+  const handleHomeClick = () => {
+    navigate("/home");
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
-        {questions.map((question, index) => (
-          <div key={index} style={{ marginBottom: '10px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', width: '100%' }}>
-            <div>{question.question}</div>
-            {question.options.map((opt, optIndex) => (
-              <input key={optIndex} type="text" value={opt} readOnly style={{ width: '100%', padding: '8px', marginBottom: '5px', backgroundColor: '#f9f9f9', border: '1px solid #ccc', borderRadius: '3px' }} />
+    <div>
+      <div className="p-2 bg-white drop-shadow-lg sticky top-0 rounded-3xl">
+        <button onClick={handleHomeClick}>Back To Home</button>
+      </div>
+      <div className="p-20 bg-[#E9EDC9]">
+        <div className="bg-[#E9EDC9] flex gap-5 box-border">
+          <div className="flex-col justify-center items-center text-center w-full gap-5 p-5 bg-white border h-auto overflow-hidden shadow-lg rounded">
+            {questions.map((q, index) => (
+              <div key={index} className="border-[1px] p-10 mb-4">
+                <div className="mb-5 font-bold">{q.question}</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {q.options.map((opt, optIndex) => (
+                    <div key={optIndex}>
+                      <button className="bg-black text-white w-[50%] p-4 rounded-2xl">
+                        {opt}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-        ))}
-      </div>
-      <button style={buttonStyle} onClick={() => handleJoinQuiz('YourTopicName')}>
-        {isLoading ? 'Loading Quizzes...' : 'Join Quiz'}
-      </button>
-      {isLoading ? (
-        <p>Loading quizzes...</p>
-      ) : (
-        <div>
-          {quizzes.map((quiz) => (
-            <div key={quiz.id}>
-              <h3>Quiz ID: {quiz.id}</h3>
-              <p>Question: {quiz.question}</p>
-              <ul>
-                {quiz.options.map((opt, index) => (
-                  <li key={index}>{opt}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };

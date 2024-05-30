@@ -8,9 +8,11 @@ import QuizPreview from "./Components/QuizPreview";
 import LoginForm from "./Form/LoginForm";
 import SigninForm from "./Form/SigninForm";
 import LandingPage from "./Pages/LandingPage";
-import Homepage from "./Components/Homepage";
+import Homepage from "./Pages/Homepage";
 import PinVerification from "./Components/PinVerification";
 import Quizzes from "./Components/Quizzes";
+import QuizAttempt from "./Components/QuizAttempt";
+import ResultPage from "./Pages/ResultPage";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -53,6 +55,8 @@ function App() {
         />
         <Route path="/pin-verification" element={<PinVerification />} />
         <Route path="/quizzes" element={<Quizzes />} />
+        <Route path="/quiz/:type" element={<QuizAttempt />} />
+        <Route path="/results" element={<ResultPage />} />
       </Routes>
     </>
   );

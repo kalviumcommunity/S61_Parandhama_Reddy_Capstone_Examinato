@@ -3,11 +3,15 @@
 import React, { useState } from "react";
 import { Card } from "@chakra-ui/react";
 import Navbar from "./Navbar";
+import { useNavigate } from 'react-router-dom';
 
 const QuizComponent = ({ handleAddQuestion }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState("");
   const [currentOptions, setCurrentOptions] = useState(["", ""]);
+  const [questionType, setQuestionType] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const navigate = useNavigate();
 
   const handleAddOption = () => {
     if (currentOptions.length < 4) {
@@ -24,16 +28,54 @@ const QuizComponent = ({ handleAddQuestion }) => {
   const handleAddQuestionClick = () => {
     if (
       currentQuestion.trim() !== "" &&
-      currentOptions.some((opt) => opt.trim() !== "")
+      currentOptions.some((opt) => opt.trim() !== "") &&
+      questionType.trim() !== "" &&
+      correctAnswer.trim() !== ""
     ) {
       const newQuestion = {
         question: currentQuestion,
         options: currentOptions.filter((opt) => opt.trim() !== ""),
+        type: questionType,
+        correctAnswer: correctAnswer,
       };
       setQuestions([...questions, newQuestion]);
       handleAddQuestion(newQuestion);
       setCurrentQuestion("");
       setCurrentOptions(["", ""]);
+      setQuestionType("");
+      setCorrectAnswer("");
+    }
+  };
+
+  const handlePostQuizToApi = async () => {
+    const quizData = {
+      id: Math.random().toString(36).substr(2, 9), // Generate a random ID
+      type: questionType,
+      title: "Mathematics", // Replace with your dynamic title if needed
+      questions: questions.map((q) => ({
+        question: q.question,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+      })),
+    };
+
+    try {
+      const response = await fetch('https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/postquiz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(quizData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to post quiz');
+      }
+
+      console.log('Quiz posted successfully:', await response.json());
+      navigate('/quiz-preview');
+    } catch (error) {
+      console.error('Error posting quiz:', error);
     }
   };
 
@@ -63,19 +105,21 @@ const QuizComponent = ({ handleAddQuestion }) => {
           </div>
 
           <div className="flex-1 flex flex-col justify-center items-center bg-white p-5 rounded shadow-lg">
-            <div className="relative top-[-25%] left-[40%]">
-              <button className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2">
-                Post Quiz
-              </button>
-            </div>
             <input
               type="text"
               value={currentQuestion}
               onChange={(e) => setCurrentQuestion(e.target.value)}
               placeholder="Enter the Question here"
-              className="p-2 mb-10 border rounded w-[50%] border-black "
+              className="p-2 mb-4 border rounded w-[50%] border-black"
             />
-            <div className="grid grid-cols-2 gap-5">
+            <input
+              type="text"
+              value={questionType}
+              onChange={(e) => setQuestionType(e.target.value)}
+              placeholder="Enter the Question Type"
+              className="p-2 mb-4 border rounded w-[50%] border-black"
+            />
+            <div className="grid grid-cols-2 gap-5 mb-4">
               {currentOptions.slice(0, 4).map((opt, index) => (
                 <input
                   key={index}
@@ -87,6 +131,13 @@ const QuizComponent = ({ handleAddQuestion }) => {
                 />
               ))}
             </div>
+            <input
+              type="text"
+              value={correctAnswer}
+              onChange={(e) => setCorrectAnswer(e.target.value)}
+              placeholder="Enter the Correct Answer"
+              className="p-2 mb-4 border rounded w-[50%] border-black"
+            />
             <div className="flex justify-center items-center gap-40">
               <button
                 type="button"
@@ -101,6 +152,14 @@ const QuizComponent = ({ handleAddQuestion }) => {
                 className="w-full px-4 bg-blue-500 text-white rounded mt-2"
               >
                 Add Question
+              </button>
+            </div>
+            <div className="relative top-[-25%] left-[40%]">
+              <button
+                onClick={handlePostQuizToApi}
+                className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2"
+              >
+                Post Quiz
               </button>
             </div>
           </div>

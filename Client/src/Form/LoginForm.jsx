@@ -1,6 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -19,66 +28,110 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="bg-[#FFD60A] h-screen w-screen flex justify-center items-center font-roboto-serif">
-      <div
-        className="bg-cover bg-center h-[85%] w-[90%] rounded-[20px] shadow-xl"
-        style={{ backgroundImage: `url(${loginImg})` }}
+    <Box
+      bg="#FFD60A"
+      h="100vh"
+      w="100vw"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      fontFamily="roboto-serif"
+    >
+      <Box
+        bgImage={`url(${loginImg})`}
+        bgSize="cover"
+        bgPosition="center"
+        h="85%"
+        w="90%"
+        borderRadius="20px"
+        shadow="xl"
+        position="absolute"
       >
-        <div className="bg-[#FEE440] h-[85%] w-[30%] m-0 absolute right-[5%] rounded-2xl">
+        <Box
+          bg="#FEE440"
+          h="85vh"
+          w="30%"
+          m="0"
+          className="absolute right-0 rounded-2xl"
+        >
           <form className="flex-col" onSubmit={handleLogin}>
-            <p className="m-5 text-center text-2xl p-2">
+            <Text m="5" textAlign="center" fontSize="2xl" p="2">
               <strong>Login to your Account</strong>
-            </p>
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Email</label>
-            </div>
-
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
+            </Text>
+            <Box px="5">
+              <FormLabel color="#9E9C9C">Email</FormLabel>
+            </Box>
+            <Box px="5" py="2" fontSize="sm">
+              <Input
+                w="75%"
+                border="2px solid"
+                borderColor="slate.400"
+                background="white"
+                borderRadius="8px"
+                px="3"
+                py="2"
                 type="email"
                 placeholder="Enter your Email here"
               />
-            </div>
-
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Password</label>
-            </div>
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
+            </Box>
+            <Box px="5">
+              <FormLabel color="#9E9C9C">Password</FormLabel>
+            </Box>
+            <Box px="5" py="2" fontSize="sm">
+              <Input
+                w="75%"
+                border="2px solid"
+                borderColor="slate.400"
+                background="white"
+                borderRadius="8px"
+                px="3"
+                py="2"
                 type="password"
                 placeholder="Enter your Password"
               />
-            </div>
-            <div className="relative left-24 top-5 pb-10">
-              <button
+            </Box>
+            <Box position="relative" left="24" top="5" pb="10">
+              <Button
                 onClick={handleLogin}
-                className="rounded-2xl bg-black text-white px-8 py-3"
+                borderRadius="2xl"
+                bg="black"
+                color="white"
+                px="8"
+                py="3"
               >
                 Login
-              </button>
-            </div>
+              </Button>
+            </Box>
             <br />
-            <div className="absolute left-[5%] border-black border-[1px] w-[90%]"></div>
-            <div className="flex justify-center items-center pb-5">
-              <div className="flex p-5">
+            <Box
+              position="absolute"
+              left="5%"
+              borderBottom="1px solid black"
+              w="90%"
+            />
+            <Flex justifyContent="center" alignItems="center" pb="5">
+              <Flex p="5">
                 <FcGoogle className="m-5 h-10 w-10" />
-                <FaApple className="m-5 h-10 w-10" />
+
                 <FaGithub className="m-5 h-10 w-10" />
-                <FaXTwitter className="m-5 h-10 w-10" />
-              </div>
-            </div>
-            <p className="text-center">
+              </Flex>
+            </Flex>
+            <Text textAlign="center">
               Don't Have an Account?{" "}
-              <span className="text-[#F81212] cursor-pointer" onClick={handleSignupClick}>
-                <strong> Sign Up</strong>
-              </span>
-            </p>
+              <Text
+                as="span"
+                color="#F81212"
+                cursor="pointer"
+                onClick={handleSignupClick}
+                fontWeight="bold"
+              >
+                Sign Up
+              </Text>
+            </Text>
           </form>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
