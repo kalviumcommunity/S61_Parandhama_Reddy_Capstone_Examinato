@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../Components/Navbar";
 
 const HomePage = ({ topics, onStartQuiz }) => {
   const navigate = useNavigate();
@@ -43,7 +43,8 @@ const HomePage = ({ topics, onStartQuiz }) => {
         }}
         className="shadow-container"
       >
-        <div className="font-roboto-serif"
+        <div
+          className="font-roboto-serif"
           style={{
             backgroundColor: "#fff",
             border: "1px solid #ddd",

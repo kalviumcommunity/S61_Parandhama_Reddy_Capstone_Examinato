@@ -17,7 +17,7 @@ const PinVerification = () => {
         autoClose: 10000,
         position: "top-right",
       });
-      console.log(otp);
+      // console.log(otp);
     });
   };
 

@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@headlessui/react": "^2.0.4",
     "@mui/material": "^5.15.17",
+    "@nextui-org/react": "^2.4.0",
     "@tailwindcss/typography": "^0.5.13",
     "axios": "^1.7.2",
     "framer-motion": "^11.2.0",
