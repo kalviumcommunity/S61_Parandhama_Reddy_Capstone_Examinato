@@ -6,6 +6,8 @@ const uri = process.env.MONGODB_URI;
 const port = 8000;
 const router = require("./routes");
 const cors = require("cors");
+const auth = require("./Authentication/auth");
+
 
 app.use(express.json());
 
@@ -35,5 +37,7 @@ app.listen(port, () => {
 });
 
 app.use("/api", router);
+app.use(auth);
+
 
 module.exports = app;

@@ -1,30 +1,30 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Input,
-  Button,
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Input, Button, FormLabel } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
-import { FaApple, FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import loginImg from "../Assets/LoginImg.jpg";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     navigate("/home");
   };
 
   const handleSignupClick = () => {
     navigate("/signin");
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8000/auth/google";
+  };
+
+  const handleGithubLogin = () => {
+    window.location.href = "http://localhost:8000/auth/github";
   };
 
   return (
@@ -92,7 +92,7 @@ const LoginForm = () => {
             </Box>
             <Box position="relative" left="24" top="5" pb="10">
               <Button
-                onClick={handleLogin}
+                type="submit"
                 borderRadius="2xl"
                 bg="black"
                 color="white"
@@ -111,9 +111,12 @@ const LoginForm = () => {
             />
             <Flex justifyContent="center" alignItems="center" pb="5">
               <Flex p="5">
-                <FcGoogle className="m-5 h-10 w-10" />
-
-                <FaGithub className="m-5 h-10 w-10" />
+                <Button bg="transparent" onClick={handleGoogleLogin}>
+                  <FcGoogle className="m-5 h-10 w-10" />
+                </Button>
+                <Button bg="transparent" onClick={handleGithubLogin}>
+                  <FaGithub className="m-5 h-10 w-10" />
+                </Button>
               </Flex>
             </Flex>
             <Text textAlign="center">
