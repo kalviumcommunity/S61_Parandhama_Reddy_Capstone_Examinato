@@ -49,9 +49,9 @@ const QuizComponent = ({ handleAddQuestion }) => {
 
   const handlePostQuizToApi = async () => {
     const quizData = {
-      id: Math.random().toString(36).substr(2, 9), // Generate a random ID
+      id: Math.random().toString(36).substr(2, 9),
       type: questionType,
-      title: "Mathematics", // Replace with your dynamic title if needed
+      title: "Mathematics",
       questions: questions.map((q) => ({
         question: q.question,
         options: q.options,
@@ -154,7 +154,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
                 Add Question
               </button>
             </div>
-            <div className="relative top-[-25%] left-[40%]">
+            <div className="relative top-[-65%] left-[40%]">
               <button
                 onClick={handlePostQuizToApi}
                 className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2"

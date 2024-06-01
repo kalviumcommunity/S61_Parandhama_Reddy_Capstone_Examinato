@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import SignInImg from "../Assets/SignInImg.png";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +13,14 @@ const SigninForm = () => {
   };
   const handleSignup = () => {
     navigate("/home");
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8000/auth/google";
+  };
+
+  const handleGithubLogin = () => {
+    window.location.href = "http://localhost:8000/auth/github";
   };
 
   return (
@@ -84,15 +90,24 @@ const SigninForm = () => {
             <div className="absolute left-[5%] border-black border-[1px] w-[90%]"></div>
             <div className="flex justify-center items-center pb-5">
               <div className="flex">
-                <FcGoogle className="m-5 h-10 w-10 " />
-                <FaApple className="m-5 h-10 w-10 " />
-                <FaGithub className="m-5 h-10 w-10 " />
-                <FaXTwitter className="m-5 h-10 w-10 " />
+                <FcGoogle
+                  cursor={"pointer"}
+                  onClick={handleGoogleLogin}
+                  className="m-5 h-10 w-10 "
+                />
+                <FaGithub
+                  cursor={"pointer"}
+                  onClick={handleGithubLogin}
+                  className="m-5 h-10 w-10 "
+                />
               </div>
             </div>
             <p className="text-center">
               Already Have an Account?{" "}
-              <span className="text-[#F81212] cursor-pointer" onClick={handleSignup}>
+              <span
+                className="text-[#F81212] cursor-pointer"
+                onClick={handleLogin}
+              >
                 <strong>Login</strong>
               </span>
             </p>
