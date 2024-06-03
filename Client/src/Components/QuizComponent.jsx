@@ -60,19 +60,6 @@ const QuizComponent = ({ handleAddQuestion }) => {
     };
 
     try {
-      const response = await fetch('https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/postquiz', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(quizData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to post quiz');
-      }
-
-      console.log('Quiz posted successfully:', await response.json());
       navigate('/quiz-preview');
     } catch (error) {
       console.error('Error posting quiz:', error);
