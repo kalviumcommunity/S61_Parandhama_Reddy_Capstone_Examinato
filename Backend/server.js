@@ -7,6 +7,7 @@ const port = 8000;
 const router = require("./routes");
 const cors = require("cors");
 const auth = require("./Authentication/auth");
+const authRoute = require("./Authentication/AuthRoutes")
 
 
 app.use(express.json());
@@ -38,6 +39,7 @@ app.listen(port, () => {
 
 app.use("/api", router);
 app.use(auth);
+app.use("/auth", authRoute);
 
 
 module.exports = app;
