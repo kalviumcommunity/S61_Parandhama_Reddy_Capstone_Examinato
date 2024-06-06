@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
-import { Box, Flex, Text, Input, Button, FormLabel } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { Box, Text, Input, Button, FormLabel } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import loginImg from "../Assets/LoginImg.jpg";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -28,6 +28,7 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (data.message === "Login successful") {
+        Cookies.set("token", data.token); // Store the token in a cookie
         navigate("/home");
       } else {
         toast.error(data.message);
@@ -83,11 +84,11 @@ const LoginForm = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <form className="flex-col" onSubmit={handleSubmit}>
-            <Text m="5" textAlign="center" fontSize="2xl" p="2">
+          <form onSubmit={handleSubmit} style={{ width: "80%" }}>
+            <Text textAlign="center" fontSize="2xl" p="2">
               <strong>Login to your Account</strong>
             </Text>
-            <Box px="5" w="100%">
+            <Box px="5">
               <FormLabel color="#9E9C9C">Email</FormLabel>
               <Input
                 w="100%"
@@ -103,7 +104,7 @@ const LoginForm = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Box>
-            <Box px="5" w="100%" pt="4">
+            <Box px="5" pt="4">
               <FormLabel color="#9E9C9C">Password</FormLabel>
               <Input
                 w="100%"
@@ -119,7 +120,7 @@ const LoginForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Box>
-            <Box w="100%" px="5" pt="6">
+            <Box px="5" pt="6">
               <Button
                 type="submit"
                 borderRadius="2xl"
