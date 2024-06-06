@@ -54,7 +54,7 @@ Auth.use(passport.session());
 
 Auth.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"], prompt: "select_account" })
 );
 
 Auth.get(
@@ -69,7 +69,7 @@ Auth.get(
 
 Auth.get(
   "/auth/github",
-  passport.authenticate("github", { scope: ["user:email"] })
+  passport.authenticate("github", { scope: ["user:email"],allow_signup: true})
 );
 
 Auth.get(
