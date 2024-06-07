@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
 const quizSchema = new mongoose.Schema({
-    id: String,
-    type: String,
-    title: String,
-    questions: [
-        {
-            question: String,
-            options: [String],
-            correctAnswer: String
-        }
-    ]
-});
+    id:Number,
+    type:String,
+    title:String,
+    question:String,
+    options:Array,
+    correctAnswer:String
+})
 
-const quizModel = mongoose.model("Quiz", quizSchema);
-module.exports = quizModel;
+const quizModel = mongoose.model("data",quizSchema)
+module.exports = quizModel
