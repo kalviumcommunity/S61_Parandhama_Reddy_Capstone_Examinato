@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
@@ -52,7 +51,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
 
   const handleAddQuestionClick = () => {
     const questionContent = questionFile || currentQuestion;
-    const optionsContent = optionsFiles.length
+    const optionsContent = optionsFiles.some((file) => file)
       ? optionsFiles
       : currentOptions.filter((opt) => opt.trim() !== "");
 
@@ -72,7 +71,6 @@ const QuizComponent = ({ handleAddQuestion }) => {
       setQuestionFile(null);
       setOptionsFiles(["", ""]);
     } else {
-      // Show an alert message if validation fails
       alert("Please fill out the question type and correct answer fields!");
     }
   };
@@ -81,7 +79,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
     const quizData = {
       id: Math.random().toString(36).substr(2, 9),
       type: questionType,
-      title: "Mathematics", // This title can be made dynamic
+      title: "Mathematics",
       questions: questions.map((q) => ({
         question: q.question,
         options: q.options,
@@ -103,6 +101,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
       </div>
       <div className="bg-[#E9EDC9] flex gap-5 h-screen p-5 box-border">
         <div className="flex-col justify-center items-center text-center w-[25%] gap-5 p-5 bg-white border h-auto overflow-hidden shadow-lg rounded">
+          <strong>Preview</strong>
           {questions.map((q, index) => (
             <Card key={index} className="border-[1px] p-10 mb-4">
               <div className="mb-5 font-bold">
@@ -140,18 +139,21 @@ const QuizComponent = ({ handleAddQuestion }) => {
           ))}
         </div>
         <div className="flex-1 flex flex-col justify-center items-center bg-white p-5 rounded shadow-lg">
-          <input
-            type="text"
-            value={currentQuestion}
-            onChange={(e) => setCurrentQuestion(e.target.value)}
-            placeholder="Enter the Question here"
-            className="p-2 mb-4 border rounded w-[50%] border-black"
-          />
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="p-2 mb-4 border rounded w-[50%] border-black"
-          />
+          <div className="flex gap-5 justify-center items-center">
+            <input
+              type="text"
+              value={currentQuestion}
+              onChange={(e) => setCurrentQuestion(e.target.value)}
+              placeholder="Enter the Question here or upload file"
+              className="p-2 mb-4 border rounded w-[50%] border-black"
+            />
+            <h2>Or</h2>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="rounded w-[50%] m-0 "
+            />
+          </div>
           <input
             type="text"
             value={questionType}
@@ -160,8 +162,11 @@ const QuizComponent = ({ handleAddQuestion }) => {
             className="p-2 mb-4 border rounded w-[50%] border-black"
           />
           <div className="grid grid-cols-2 gap-5 mb-4">
-            {currentOptions.slice(0, 4).map((opt, index) => (
-              <div key={index} className="flex flex-col">
+            {currentOptions.map((opt, index) => (
+              <div
+                key={index}
+                className="flex flex-col justify-center items-center"
+              >
                 <input
                   type="text"
                   value={opt}
@@ -169,10 +174,11 @@ const QuizComponent = ({ handleAddQuestion }) => {
                   placeholder={`Option ${index + 1}`}
                   className="p-2 mb-2 border rounded"
                 />
+                <h2>Or</h2>
                 <input
                   type="file"
                   onChange={(e) => handleOptionFileChange(index, e)}
-                  className="p-2 mb-2 border rounded"
+                  className="rounded w-[50%] m-0 "
                 />
               </div>
             ))}
@@ -185,13 +191,15 @@ const QuizComponent = ({ handleAddQuestion }) => {
             className="p-2 mb-4 border rounded w-[50%] border-black"
           />
           <div className="flex justify-center items-center gap-40">
-            <button
-              type="button"
-              onClick={handleAddOption}
-              className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2"
-            >
-              Add Option
-            </button>
+            {currentOptions.length < 4 && (
+              <button
+                type="button"
+                onClick={handleAddOption}
+                className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2"
+              >
+                Add Option
+              </button>
+            )}
             <button
               type="button"
               onClick={handleAddQuestionClick}
@@ -200,10 +208,10 @@ const QuizComponent = ({ handleAddQuestion }) => {
               Add Question
             </button>
           </div>
-          <div className="relative top-[-65%] left-[40%]">
+          <div className="relative top-[-70%] left-[40%]">
             <button
               onClick={handlePostQuizToApi}
-              className="w-full py-2 px-4 bg-blue-500 text-white rounded mt-2"
+              className="w-full py-2 px-4 bg-blue-500 text-white rounded"
             >
               Post Quiz
             </button>

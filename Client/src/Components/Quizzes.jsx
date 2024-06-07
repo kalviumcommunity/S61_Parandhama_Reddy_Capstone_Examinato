@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Box, Text, Heading } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
+import { Box, Text, Heading, Button } from "@chakra-ui/react";
 
 const Quizzes = () => {
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTypesFromDb = async () => {
@@ -32,7 +33,10 @@ const Quizzes = () => {
   const uniqueTypes = new Set(types);
 
   return (
-    <Box className="p-10 bg-yellow-200 w-full h-auto font-roboto-serif">
+    <Box className="p-10 bg-yellow-200 w-full h-[100vh] font-roboto-serif">
+    <Button colorScheme="red" onClick={()=>{
+      navigate("/home")
+    }}>Leave Quiz</Button>
       <Heading as="h1" className="text-2xl text-center text-slate-600 font-bold mb-4">
         Available Quizzes
       </Heading>
