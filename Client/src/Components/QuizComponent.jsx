@@ -63,6 +63,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
         correctAnswer: correctAnswer,
       };
       setQuestions([...questions, newQuestion]);
+      console.log("New question added:", newQuestion);
       handleAddQuestion(newQuestion);
       setCurrentQuestion("");
       setCurrentOptions(["", ""]);
@@ -78,16 +79,17 @@ const QuizComponent = ({ handleAddQuestion }) => {
   const handlePostQuizToApi = async () => {
     const quizData = {
       id: Math.random().toString(36).substr(2, 9),
-      type: questionType,
-      title: "Mathematics",
+      title: " ",
       questions: questions.map((q) => ({
         question: q.question,
         options: q.options,
         correctAnswer: q.correctAnswer,
+        type: q.type,
       })),
     };
 
     try {
+      console.log("Quiz data to be sent:", quizData);
       navigate("/quiz-preview", { state: { quizData } });
     } catch (error) {
       console.error("Error posting quiz:", error);

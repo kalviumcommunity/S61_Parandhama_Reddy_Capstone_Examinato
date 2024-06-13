@@ -1,9 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const QuizModel = require("./Model/model");
 const quizSchema = require("./Model/joiValidation")
+const cookieParser = require('cookie-parser');
+const app = express();
+app.use(cookieParser());
+const authMiddleware  = require("./Authentication/authMiddleware")
 
-router.post("/postquiz", async (req, res) => {
+const JWT_SECRET = process.env.JWT_SECRET
+
+router.post("/postquiz", authMiddleware, async (req, res) => {
   const quizData = req.body;
 
   try {
@@ -12,17 +18,23 @@ router.post("/postquiz", async (req, res) => {
       return res.status(400).json({ error: error.message });
     }
 
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ error: "Author ID is missing" });
+    }
+
+    quizData.author = req.user.id;
+
     const quiz = new QuizModel(quizData);
     const savedQuiz = await quiz.save();
     res.status(201).json({ message: "Quiz data posted successfully", data: savedQuiz });
   } catch (error) {
-    console.error("Error posting in the quiz data:", error);
+    console.error("Error posting the quiz data:", error);
     res.status(500).json({ error: "Unable to post quiz data" });
   }
 });
 
 
-router.get("/getquiz", async (req, res) => {
+router.get("/getquiz",authMiddleware, async (req, res) => {
   try {
     const quizzes = await QuizModel.find();
     res.send(quizzes);
@@ -31,38 +43,39 @@ router.get("/getquiz", async (req, res) => {
   }
 });
 
-router.put("/updatequiz/:id", async (req, res) => {
+router.put('/updatequiz/:id',authMiddleware, async (req, res) => {
   const quizId = req.params.id;
-  const updateQuizData = req.body;
-  const { error } = quizSchema.validate(updateQuizData);
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
+
   try {
-    const updatedQuiz = await QuizModel.findByIdAndUpdate(
+    const updatedQuiz = await Quiz.findByIdAndUpdate(
       quizId,
-      updateQuizData,
+      { $set: req.body },
       { new: true }
     );
+
     if (!updatedQuiz) {
-      return res.status(404).send("Quiz not found");
+      return res.status(404).json({ message: 'Quiz not found' });
     }
-    res.send(updatedQuiz);
-  } catch (err) {
-    res.status(500).send(err);
+
+    res.status(200).json({ message: 'Quiz updated successfully', quiz: updatedQuiz });
+  } catch (error) {
+    console.error(`Error updating quiz: ${error.message}`);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
-router.delete("/deletequiz/:id", async (req, res) => {
+router.delete('/deletequiz',authMiddleware, async (req, res) => {
   const quizId = req.params.id;
   try {
-    const deletedQuiz = await QuizModel.findByIdAndDelete(quizId);
+    const deletedQuiz = await Quiz.findByIdAndDelete(quizId);
     if (!deletedQuiz) {
-      return res.status(404).send("Quiz not found");
+      return res.status(404).json({ message: 'Quiz not found' });
     }
-    res.status(200).json({ message: "Quiz deleted successfully", deletedQuiz });
-  } catch (err) {
-    res.status(500).send(err);
+
+    res.status(200).json({ message: 'Quiz deleted successfully', quiz: deletedQuiz });
+  } catch (error) {
+    console.error(`Error deleting quiz: ${error.message}`);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 

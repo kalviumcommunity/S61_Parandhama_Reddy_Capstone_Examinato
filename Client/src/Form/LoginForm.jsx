@@ -28,7 +28,7 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (data.message === "Login successful") {
-        Cookies.set("token", data.token); // Store the token in a cookie
+        Cookies.set("token", data.token);
         navigate("/home");
       } else {
         toast.error(data.message);

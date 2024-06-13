@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  Card,
-  Spinner,
-  Button,
-} from "@chakra-ui/react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Card, Spinner } from "@chakra-ui/react";
 
 const QuizAttempt = () => {
   const { type } = useParams();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const selectedAuthor = queryParams.get("author") || "All";
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +22,13 @@ const QuizAttempt = () => {
           "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz"
         );
         if (Array.isArray(response.data) && response.data.length > 0) {
-          const filteredQuestions = response.data.filter(
+          let filteredQuestions = response.data;
+          if (selectedAuthor !== "All") {
+            filteredQuestions = response.data.filter(
+              (question) => question.author === selectedAuthor
+            );
+          }
+          filteredQuestions = filteredQuestions.filter(
             (question) => question.type.toUpperCase() === type.toUpperCase()
           );
           setQuestions(filteredQuestions);
@@ -46,7 +50,7 @@ const QuizAttempt = () => {
     };
 
     fetchQuestions();
-  }, [type]);
+  }, [type, selectedAuthor]);
 
   const handleAnswerChange = (questionId, option) => {
     const updatedAnswers = { ...answers, [questionId]: option };
@@ -85,7 +89,7 @@ const QuizAttempt = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="container mx-auto mt-8 border-2 p-4">
+    <div className="container mx-auto mt-8 border-2 p-4 h-screen">
       <div className="flex">
         {/* Left side div (scrollable) */}
         <div className="w-[25%] bg-white border h-auto overflow-y-auto shadow-lg rounded p-5">
@@ -150,7 +154,9 @@ const QuizAttempt = () => {
                     className="py-2 px-4 bg-blue-500 text-white rounded-md mt-4"
                     onClick={handleNextQuestion}
                   >
-                    {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Verify Answers"}
+                    {currentQuestionIndex < questions.length - 1
+                      ? "Next Question"
+                      : "Verify Answers"}
                   </button>
                 </div>
               </div>
