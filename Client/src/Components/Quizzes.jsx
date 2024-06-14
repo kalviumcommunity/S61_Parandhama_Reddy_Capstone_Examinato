@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -23,7 +23,12 @@ const Quizzes = () => {
     const fetchQuizData = async () => {
       try {
         const response = await axios.get(
-          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz"
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz",
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie("token")}`,
+            },
+          }
         );
         setQuizData(response.data);
       } catch (error) {
@@ -133,17 +138,17 @@ const Quizzes = () => {
           md: "repeat(2, 1fr)",
           lg: "repeat(3, 1fr)",
         }}
-        gap={7}
-        p={2}
+        gap={6}
+        mt={6}
       >
-        {uniqueTypes.map((type) => (
-          <Link to={`/quiz/${type}?author=${selectedAuthor}`} key={type}>
-            <Box className="bg-green-300 shadow-lg rounded-md p-12 text-center cursor-pointer">
-              <Text as="h2" className="text-sm text-white font-semibold mb-2">
-                {type}
-              </Text>
-            </Box>
-          </Link>
+        {uniqueTypes.map((type, index) => (
+          <Box
+            key={index}
+            className="h-40 text-center bg-teal-500 text-white flex items-center justify-center rounded-lg shadow-lg cursor-pointer"
+            onClick={() => navigate(`/quiz?type=${type}`)}
+          >
+            <Text className="text-xl font-bold">{type}</Text>
+          </Box>
         ))}
       </Box>
     </Box>
