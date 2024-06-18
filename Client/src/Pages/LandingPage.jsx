@@ -11,11 +11,11 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   const handleSignInClick = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleGetStartedClick = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -34,10 +34,12 @@ const LandingPage = () => {
     >
       <Flex justify="space-between" px="14" py="10">
         <Image src={logo} alt="Logo" h="50px" />
-        <Flex gap="10" fontSize="20px">
+        <Flex gap="10" fontSize={["16px", "18px", "20px"]}>
           <Text>About</Text>
           <Text>Contact</Text>
-          <Text onClick={handleSignInClick} cursor="pointer">Sign in</Text>
+          <Text onClick={handleSignInClick} cursor="pointer">
+            Sign in
+          </Text>
         </Flex>
       </Flex>
       <Box
@@ -59,9 +61,9 @@ const LandingPage = () => {
         left="20"
         textAlign="wrap"
         w="38%"
-        fontSize="xl"
+        fontSize={["sm", "lg", "xl"]}
       >
-        <Heading as="h2">
+        <Heading as="h2" fontSize={["xl", "3xl", "4xl"]}>
           <strong>Welcome to Examinato!</strong>
         </Heading>
         <br />
@@ -77,9 +79,9 @@ const LandingPage = () => {
         left="60%"
         textAlign="wrap"
         w="38%"
-        fontSize="xl"
+        fontSize={["sm", "lg", "xl"]}
       >
-        <Heading as="h2">
+        <Heading as="h2" fontSize={["2xl", "3xl", "4xl"]}>
           <strong>For Students:</strong>
         </Heading>
         <br />
@@ -97,9 +99,9 @@ const LandingPage = () => {
         left="20"
         textAlign="wrap"
         w="38%"
-        fontSize="xl"
+        fontSize={["sm", "lg", "xl"]}
       >
-        <Heading as="h2">
+        <Heading as="h2" fontSize={["2xl", "3xl", "4xl"]}>
           <strong>For Educators:</strong>
         </Heading>
         <br />
@@ -117,9 +119,9 @@ const LandingPage = () => {
         left="18%"
         textAlign="wrap"
         w="22%"
-        fontSize="xl"
+        fontSize={["sm", "lg", "xl"]}
       >
-        <Heading as="h2">
+        <Heading as="h2" fontSize={["2xl", "3xl", "4xl"]}>
           <strong>Key Features:</strong>
         </Heading>
         <br />
@@ -143,7 +145,7 @@ const LandingPage = () => {
           bg="#EF233CBD"
           p="5"
           borderRadius="10px"
-          fontSize="20px"
+          fontSize={["10px", "18px", "20px"]}
           cursor="pointer"
           onClick={handleGetStartedClick}
         >
@@ -158,13 +160,14 @@ const LandingPage = () => {
         bg="red.300"
         p="3"
       >
-        <Flex justify="space-evenly">
+        <Flex justify="space-evenly" fontSize={["8px", "16px", "18px"]}>
           <Text>FAQS or Help Center</Text>
           <Text>
-            <strong>Privacy Policy</strong> and <strong>Terms of Service</strong>
+            <strong>Privacy Policy</strong> and{" "}
+            <strong>Terms of Service</strong>
           </Text>
         </Flex>
-        <Text textAlign="center">
+        <Text textAlign="center" fontSize={["6px", "14px", "16px"]}>
           © 2024 Examinato, All rights reserved.
         </Text>
       </Box>

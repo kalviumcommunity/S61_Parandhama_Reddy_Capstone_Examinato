@@ -3,6 +3,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import { Flex, Button, Input } from "@chakra-ui/react";
 
 const HomePage = ({ topics, onStartQuiz }) => {
   const navigate = useNavigate();
@@ -13,38 +14,58 @@ const HomePage = ({ topics, onStartQuiz }) => {
 
   return (
     <>
-      <div className=" px-3 py-5 sticky top-0">
+      <div className="px-3 py-5 sticky top-0">
         <Navbar />
       </div>
-      <div className="flex justify-center items-center gap-20 m-10 font-roboto-serif">
+      <Flex
+        justify="center"
+        align="center"
+        gap={20}
+        m={10}
+        fontFamily="Roboto"
+        fontStyle="serif"
+      >
         <Link to={"/create-quiz"}>
-          <button className="p-4 text-white bg-black text-center rounded-xl">
+          <Button
+            px={4}
+            py={2}
+            bg="black"
+            color="white"
+            rounded="xl"
+            _hover={{ bg: "gray.800" }}
+          >
             Create Quiz
-          </button>
+          </Button>
         </Link>
-        <button
+        <Button
           onClick={handleJoinQuiz}
-          className="p-4 text-white bg-black text-center rounded-xl"
+          px={4}
+          py={2}
+          bg="black"
+          color="white"
+          rounded="xl"
+          _hover={{ bg: "gray.800" }}
         >
           Join Quiz
-        </button>
-      </div>
-      <div className="flex justify-center items-center font-roboto-serif">
-        <input
+        </Button>
+      </Flex>
+      <Flex justify="center" fontFamily="Roboto" fontStyle="serif">
+        <Input
           type="text"
           placeholder="Enter type of Quiz"
-          className="border-[1px] border-black w-[50%] p-2 rounded-xl shadow-inner"
+          borderWidth="1px"
+          borderColor="black"
+          w="50%"
+          p={2}
+          rounded="xl"
+          shadow="inner"
         />
-      </div>
+      </Flex>
       <div
-        style={{
-          padding: "20px",
-          borderRadius: "5px",
-        }}
+        style={{ padding: "20px", borderRadius: "5px" }}
         className="shadow-container"
       >
         <div
-          className="font-roboto-serif"
           style={{
             backgroundColor: "#fff",
             border: "1px solid #ddd",
@@ -58,23 +79,20 @@ const HomePage = ({ topics, onStartQuiz }) => {
                 <h3 style={{ textAlign: "center" }}>
                   <strong>{topic.name}</strong>
                 </h3>
-                <button
-                  type="button"
+                <Button
                   onClick={() => onStartQuiz(topic)}
-                  style={{
-                    display: "block",
-                    width: "10%",
-                    padding: "10px",
-                    backgroundColor: "#FF0000",
-                    color: "#000000",
-                    border: "none",
-                    borderRadius: "10px",
-                    cursor: "pointer",
-                    marginTop: "10px",
-                  }}
+                  w="auto"
+                  px={4}
+                  py={2}
+                  bg="#FF0000"
+                  color="#000000"
+                  border="none"
+                  rounded="xl"
+                  cursor="pointer"
+                  mt={3}
                 >
                   Start Quiz
-                </button>
+                </Button>
               </div>
             </div>
           ))}
