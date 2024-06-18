@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import SignInImg from "../Assets/SignInImg.png";
+import { Box, Text, Input, Button, FormLabel } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import SignInImg from "../Assets/SignInImg.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +24,7 @@ const SigninForm = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/auth/signin", {
+      const response = await fetch("https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullname, email, password }),
@@ -48,113 +49,159 @@ const SigninForm = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8000/auth/google";
+    window.location.href = "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/google";
   };
 
   const handleGithubLogin = () => {
-    window.location.href = "http://localhost:8000/auth/github";
+    window.location.href = "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/github";
   };
 
   return (
-    <div className="bg-[#FFD60A] h-screen w-screen flex justify-center items-center font-roboto-serif">
-      <div
-        className="bg-cover bg-center h-[85%] w-[90%] rounded-[20px] shadow-md"
-        style={{ backgroundImage: `url(${SignInImg})` }}
+    <Box
+      bg="#FFD60A"
+      h="100vh"
+      w="100vw"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      fontFamily="roboto-serif"
+    >
+      <Box
+        bgImage={`url(${SignInImg})`}
+        bgSize="cover"
+        bgPosition="center"
+        h="85%"
+        w="90%"
+        borderRadius="20px"
+        shadow="xl"
+        display={["none", "none", "flex"]}
+        justifyContent="center"
+        alignItems="center"
       >
-        <p className="text-3xl absolute top-[55%] left-[25%]">
-          <strong>Sign Up!</strong>
-        </p>
-        <div className="bg-[#FEE440] h-[85%] w-[30%] m-0 absolute right-[5%] rounded-2xl">
-          <form onSubmit={handleSubmit}>
-            <p className="m-5 text-center text-2xl p-2">
-              <strong>Create your Account</strong>
-            </p>
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Full Name</label>
-            </div>
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
-                type="text"
-                placeholder="Full Name"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-              />
-            </div>
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Email</label>
-            </div>
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Password</label>
-            </div>
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="px-5">
-              <label className="text-[#9E9C9C]">Confirm Password</label>
-            </div>
-            <div className="px-5 py-2 text-sm">
-              <input
-                className="w-[75%] border-[2px] border-slate-400 rounded-[8px] px-3 py-2"
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <div className="relative left-24 top-5 pb-10">
-              <button
-                type="submit"
-                className="rounded-2xl bg-black text-white px-8 py-3"
-              >
-                Sign Up
-              </button>
-            </div>
-            <br />
-            <div className="absolute left-[5%] border-black border-[1px] w-[90%]"></div>
-            <div className="flex justify-center items-center pb-5">
-              <div className="flex">
-                <FcGoogle
-                  cursor={"pointer"}
-                  onClick={handleGoogleLogin}
-                  className="m-5 h-10 w-10"
-                />
-                <FaGithub
-                  cursor={"pointer"}
-                  onClick={handleGithubLogin}
-                  className="m-5 h-10 w-10"
-                />
-              </div>
-            </div>
-            <p className="text-center">
-              Already have an account?{" "}
-              <strong
-                onClick={handleLogin}
-                className="text-[#F81212] cursor-pointer"
-              >
-                Log In
-              </strong>
-            </p>
-          </form>
-        </div>
-      </div>
+      </Box>
+      <Box
+        bg="#FEE440"
+        h="85vh"
+        w={["90%", "70%", "50%", "30%"]}
+        borderRadius="20px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        p={["4", "8"]}
+      >
+        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+          <Text textAlign="center" fontSize="2xl" p="2">
+            <strong>Create your Account</strong>
+          </Text>
+          <Box px="5" pt="4">
+            <FormLabel color="#9E9C9C">Full Name</FormLabel>
+            <Input
+              w="100%"
+              border="2px solid"
+              borderColor="slate.400"
+              background="white"
+              borderRadius="8px"
+              px="3"
+              py="2"
+              type="text"
+              placeholder="Full Name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
+          </Box>
+          <Box px="5" pt="4">
+            <FormLabel color="#9E9C9C">Email</FormLabel>
+            <Input
+              w="100%"
+              border="2px solid"
+              borderColor="slate.400"
+              background="white"
+              borderRadius="8px"
+              px="3"
+              py="2"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Box>
+          <Box px="5" pt="4">
+            <FormLabel color="#9E9C9C">Password</FormLabel>
+            <Input
+              w="100%"
+              border="2px solid"
+              borderColor="slate.400"
+              background="white"
+              borderRadius="8px"
+              px="3"
+              py="2"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Box>
+          <Box px="5" pt="4">
+            <FormLabel color="#9E9C9C">Confirm Password</FormLabel>
+            <Input
+              w="100%"
+              border="2px solid"
+              borderColor="slate.400"
+              background="white"
+              borderRadius="8px"
+              px="3"
+              py="2"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Box>
+          <Box px="5" pt="6" w="100%">
+            <Button
+              type="submit"
+              borderRadius="2xl"
+              bg="black"
+              color="white"
+              px="8"
+              py="3"
+              w="100%"
+            >
+              Sign Up
+            </Button>
+          </Box>
+          <Box
+            w="100%"
+            px="5"
+            pt="4"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button bg="transparent" onClick={handleGoogleLogin}>
+              <FcGoogle className="m-5 h-10 w-10" />
+            </Button>
+            <Button bg="transparent" onClick={handleGithubLogin}>
+              <FaGithub className="m-5 h-10 w-10" />
+            </Button>
+          </Box>
+          <Text textAlign="center" pt="4">
+            Already have an account?{" "}
+            <Text
+              as="span"
+              color="#F81212"
+              cursor="pointer"
+              onClick={handleLogin}
+              fontWeight="bold"
+            >
+              Log In
+            </Text>
+          </Text>
+        </form>
+      </Box>
       <ToastContainer />
-    </div>
+    </Box>
   );
 };
 

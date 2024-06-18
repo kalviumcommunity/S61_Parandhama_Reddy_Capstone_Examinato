@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Flex, Image, Text, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import logo from "../Assets/logo.svg";
 
 const Navbar = () => {
@@ -15,19 +15,46 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky border-2 border-black rounded-2xl bg-white flex justify-between p-3">
-      <img
+    <Flex
+      className="sticky justify-between items-center"
+      border="2px"
+      borderColor="black"
+      borderRadius="2xl"
+      bg="white"
+      p="3"
+      direction={{ base: "row", md: "row" }}
+    >
+      <Image
         src={logo}
         alt="Logo"
-        className="h-[50px] cursor-pointer"
+        h={{ base: "20px", md: "50px" }}
+        w="auto"
+        cursor="pointer"
         onClick={handleHomeClick}
       />
-      <div className="flex justify-end items-center gap-[20px] mr-3">
-        <p className="cursor-pointer">About</p>
-        <p className="cursor-pointer">Contact</p>
-        <button className="bg-black text-white w-[75%] px-5 py-2 rounded-2xl" onClick={handleLogout}>Log Out</button>
-      </div>
-    </nav>
+      <Flex
+        className="justify-center items-center gap-6"
+        mt={{ base: 4, md: 0 }}
+      >
+        <Link to="/about">
+          <Text cursor="pointer">About</Text>
+        </Link>
+        <Link to="/contact">
+          <Text cursor="pointer">Contact</Text>
+        </Link>
+        <Button
+          bg="black"
+          color="white"
+          w={{ base: "100%", md: "75%" }}
+          px="5"
+          py="2"
+          borderRadius="2xl"
+          onClick={handleLogout}
+        >
+          Log Out
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 
