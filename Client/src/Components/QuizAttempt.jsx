@@ -16,11 +16,27 @@ const QuizAttempt = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
+    console.log("Quiz type:", type); // Added logging
+
     const fetchQuestions = async () => {
       try {
+        const token = getCookie("token");
+        if (!token) {
+          setError("Unauthorized. Please log in.");
+          setLoading(false);
+          return;
+        }
+
         const response = await axios.get(
-          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz"
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
+        console.log("Fetched quiz data:", response.data); // Added logging
         if (Array.isArray(response.data) && response.data.length > 0) {
           let filteredQuestions = response.data;
           if (selectedAuthor !== "All") {
@@ -31,6 +47,7 @@ const QuizAttempt = () => {
           filteredQuestions = filteredQuestions.filter(
             (question) => question.type.toUpperCase() === type.toUpperCase()
           );
+          console.log("Filtered questions:", filteredQuestions); // Added logging
           setQuestions(filteredQuestions);
 
           const initialAnswers = {};
@@ -51,6 +68,12 @@ const QuizAttempt = () => {
 
     fetchQuestions();
   }, [type, selectedAuthor]);
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  };
 
   const handleAnswerChange = (questionId, option) => {
     const updatedAnswers = { ...answers, [questionId]: option };
@@ -84,7 +107,9 @@ const QuizAttempt = () => {
     );
   }
 
-  if (error) return <div>{error}</div>;
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   const currentQuestion = questions[currentQuestionIndex];
 
