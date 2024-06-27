@@ -30,6 +30,7 @@ const Quizzes = () => {
             },
           }
         );
+        console.log("Fetched quiz data:", response.data); // Added logging
         setQuizData(response.data);
       } catch (error) {
         console.error("Error fetching quiz data:", error);
@@ -145,7 +146,7 @@ const Quizzes = () => {
           <Box
             key={index}
             className="h-40 text-center bg-teal-500 text-white flex items-center justify-center rounded-lg shadow-lg cursor-pointer"
-            onClick={() => navigate(`/quiz?type=${type}`)}
+            onClick={() => navigate(`/quiz/${type}`)} // Ensure correct URL format
           >
             <Text className="text-xl font-bold">{type}</Text>
           </Box>

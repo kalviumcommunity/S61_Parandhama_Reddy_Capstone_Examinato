@@ -35,7 +35,7 @@ router.post("/postquiz", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/getquiz", authMiddleware, async (req, res) => {
+router.get("/getquiz", async (req, res) => {
   try {
     const quizzes = await QuizModel.find();
     res.send(quizzes);
