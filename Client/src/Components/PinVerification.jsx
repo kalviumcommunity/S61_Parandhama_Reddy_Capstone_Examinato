@@ -1,64 +1,119 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { otpGen } from "otp-gen-agent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase.config";
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import OtpInput from "otp-input-react";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { CgSpinner } from "react-icons/cg";
 
 const PinVerification = () => {
-  const [pin, setPin] = useState("");
-  const [generatedOTP, setGeneratedOTP] = useState("");
+  const [otp, setOtp] = useState("");
+  const [ph, setPh] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
   const navigate = useNavigate();
 
   const generateOTP = () => {
-    otpGen().then((otp) => {
-      setGeneratedOTP(otp);
-      toast(otp, {
-        autoClose: 10000,
-        position: "top-right",
-      });
-      // console.log(otp);
-    });
+    setLoading(true);
+
+    try {
+      const recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+        }
+      );
+
+      const formatPh = "+" + ph;
+
+      signInWithPhoneNumber(auth, formatPh, recaptchaVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          setLoading(false);
+          setShowOTP(true);
+          toast.success("OTP sent successfully!");
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error("Failed to send OTP. Please try again.");
+        });
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed to initialize reCAPTCHA. Please try again.");
+    }
   };
 
-  const handlePinChange = (e) => {
-    setPin(e.target.value);
-  };
-
-  const handlePinSubmit = (e) => {
-    e.preventDefault();
-    if (pin === generatedOTP) {
-      toast.success("PIN Verified!");
-      navigate("/quizzes");
+  const handleOTPVerify = () => {
+    setLoading(true);
+    if (window.confirmationResult) {
+      window.confirmationResult
+        .confirm(otp)
+        .then((res) => {
+          setLoading(false);
+          toast.success("PIN Verified!");
+          navigate("/quizzes");
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error("Invalid OTP. Please try again.");
+        });
     } else {
-      toast.error("Invalid PIN! Please try again.");
+      setLoading(false);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Enter PIN</h1>
-      <form onSubmit={handlePinSubmit} className="flex flex-col items-center">
-        <input
-          type="text"
-          value={pin}
-          onChange={handlePinChange}
-          placeholder="Enter PIN"
-          className="border-2 border-gray-300 p-2 rounded mb-4"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded"
+      <h1 className="text-2xl font-bold mb-4">Please enter your Phone Number to get he code</h1>
+      <div id="recaptcha-container"></div>
+      {showOTP ? (
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col items-center"
         >
-          Verify PIN
-        </button>
-      </form>
-      <button
-        onClick={generateOTP}
-        className="bg-green-500 text-white py-2 px-4 rounded mt-4"
-      >
-        Generate OTP
-      </button>
+          <OtpInput
+            value={otp}
+            onChange={setOtp}
+            OTPLength={6}
+            otpType="number"
+            disabled={false}
+            autoFocus
+            className="otp-container mb-4"
+          />
+          <button
+            onClick={handleOTPVerify}
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            {loading && <CgSpinner speed="0.45s" size={20} />}
+            <span>Verify OTP</span>
+          </button>
+        </form>
+      ) : (
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col items-center"
+        >
+          <PhoneInput
+            country={"in"}
+            value={ph}
+            onChange={setPh}
+            containerStyle={{ marginBottom: "16px" }}
+          />
+          <button
+            onClick={generateOTP}
+            className="bg-green-500 text-white py-2 px-4 rounded"
+          >
+            {loading && <CgSpinner speed="0.45s" size={20} />}
+            <span>Send OTP</span>
+          </button>
+        </form>
+      )}
       <ToastContainer />
     </div>
   );
