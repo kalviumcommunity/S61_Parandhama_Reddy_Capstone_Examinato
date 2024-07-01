@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import Chatbot from "./Chatbot"; // Import the Chatbot component
 
 const QuizComponent = ({ handleAddQuestion }) => {
   const [questions, setQuestions] = useState([]);
@@ -12,6 +13,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [questionFile, setQuestionFile] = useState(null);
   const [optionsFiles, setOptionsFiles] = useState(["", ""]);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false); // State to manage chatbot visibility
   const navigate = useNavigate();
 
   const handleAddOption = () => {
@@ -220,6 +222,31 @@ const QuizComponent = ({ handleAddQuestion }) => {
           </div>
         </div>
       </div>
+      <div>
+        <button
+          className="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg"
+          onClick={() => setIsChatbotOpen(true)}
+        >
+          <img
+            src="/path/to/chatbot-icon.png"
+            alt="Chatbot"
+            className="w-8 h-8"
+          />
+        </button>
+      </div>
+      {isChatbotOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-center">
+          <div className="w-1/3 h-full bg-white shadow-lg p-4">
+            <button
+              className="absolute top-4 right-4 text-black"
+              onClick={() => setIsChatbotOpen(false)}
+            >
+              X
+            </button>
+            <Chatbot />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
