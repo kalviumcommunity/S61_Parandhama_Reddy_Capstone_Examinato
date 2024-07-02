@@ -114,10 +114,10 @@ const QuizAttempt = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="container mx-auto mt-8 border-2 p-4 h-screen">
-      <div className="flex">
+    <div className="container mx-auto mt-8 border-2 p-4 h-auto">
+      <div className="flex flex-col md:flex-row items-center md:items-start">
         {/* Left side div (scrollable) */}
-        <div className="w-[25%] bg-white border h-auto overflow-y-auto shadow-lg rounded p-5">
+        <div className="w-full md:w-[25%] bg-white border h-auto overflow-y-auto shadow-lg rounded p-5 hidden md:block">
           {questions.map((q, index) => (
             <Card
               key={index}
@@ -144,24 +144,24 @@ const QuizAttempt = () => {
           ))}
         </div>
         {/* Right side div (current question) */}
-        <div className="fixed left-[32%] border-2 px-[13%] py-[20%] ">
-          <h1 className="fixed top-20 left-[40%] text-2xl font-bold">
+        <div className="w-full border-2 py-10 px-24 md:w-[70%] md:ml-8 mt-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
             Quiz on {type}
           </h1>
           <div className="relative h-auto w-full">
             {currentQuestion && (
               <div
                 key={currentQuestion.id}
-                className="flex-row justify-center items-center"
+                className="flex flex-col items-center"
               >
-                <h2 className="text-center relative -top-20 text-2xl font-semibold mb-2">
+                <h2 className="text-xl md:text-2xl font-semibold mb-2">
                   {currentQuestion.question}
                 </h2>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                   {currentQuestion.options.map((option, index) => (
                     <button
                       key={index}
-                      className={`py-4 px-6 rounded-md ${
+                      className={`py-2 md:py-4 px-4 md:px-6 rounded-md ${
                         answers[currentQuestion.id] === option
                           ? "bg-blue-500 text-white"
                           : "bg-slate-500 text-black"

@@ -108,7 +108,7 @@ const SigninForm = () => {
             <strong>Create your Account</strong>
           </Text>
           <Box px="5" pt="4">
-            <FormLabel color="#9E9C9C">Full Name</FormLabel>
+            <FormLabel>Full Name</FormLabel>
             <Input
               w="100%"
               border="2px solid"
@@ -124,7 +124,7 @@ const SigninForm = () => {
             />
           </Box>
           <Box px="5" pt="4">
-            <FormLabel color="#9E9C9C">Email</FormLabel>
+            <FormLabel>Email</FormLabel>
             <Input
               w="100%"
               border="2px solid"
@@ -140,7 +140,7 @@ const SigninForm = () => {
             />
           </Box>
           <Box px="5" pt="4">
-            <FormLabel color="#9E9C9C">Password</FormLabel>
+            <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
                 w="100%"
@@ -166,7 +166,7 @@ const SigninForm = () => {
             </InputGroup>
           </Box>
           <Box px="5" pt="4">
-            <FormLabel color="#9E9C9C">Confirm Password</FormLabel>
+            <FormLabel>Confirm Password</FormLabel>
             <InputGroup>
               <Input
                 w="100%"
