@@ -100,7 +100,7 @@ const LoginForm = () => {
             <strong>Login to your Account</strong>
           </Text>
           <Box px="5">
-            <FormLabel color="#9E9C9C">Email</FormLabel>
+            <FormLabel>Email</FormLabel>
             <Input
               w="100%"
               border="2px solid"
@@ -116,7 +116,7 @@ const LoginForm = () => {
             />
           </Box>
           <Box px="5" pt="4">
-            <FormLabel color="#9E9C9C">Password</FormLabel>
+            <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
                 w="100%"
