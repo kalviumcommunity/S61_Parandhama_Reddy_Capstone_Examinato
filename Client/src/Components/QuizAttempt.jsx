@@ -16,7 +16,7 @@ const QuizAttempt = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
-    console.log("Quiz type:", type); // Added logging
+    console.log("Quiz type:", type);
 
     const fetchQuestions = async () => {
       try {
@@ -36,7 +36,7 @@ const QuizAttempt = () => {
           }
         );
 
-        console.log("Fetched quiz data:", response.data); // Added logging
+        console.log("Fetched quiz data:", response.data);
         if (Array.isArray(response.data) && response.data.length > 0) {
           let filteredQuestions = response.data;
           if (selectedAuthor !== "All") {
@@ -47,7 +47,7 @@ const QuizAttempt = () => {
           filteredQuestions = filteredQuestions.filter(
             (question) => question.type.toUpperCase() === type.toUpperCase()
           );
-          console.log("Filtered questions:", filteredQuestions); // Added logging
+          console.log("Filtered questions:", filteredQuestions);
           setQuestions(filteredQuestions);
 
           const initialAnswers = {};
