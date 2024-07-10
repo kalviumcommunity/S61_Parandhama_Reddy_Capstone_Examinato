@@ -107,7 +107,7 @@ const QuizPreview = () => {
       try {
         const token = getCookie("token");
         const response = await axios.post(
-          "http://localhost:8000/api/postquiz",
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/postquiz",
           quizToPost,
           {
             headers: {
