@@ -11,7 +11,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/google/callback",
+      callbackURL:
+        "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
@@ -24,7 +25,8 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/github/callback",
+      callbackURL:
+        "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/github/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       console.log("GitHub profile:", profile);
@@ -54,31 +56,34 @@ Auth.use(passport.session());
 
 Auth.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"], prompt: "select_account" })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  })
 );
 
 Auth.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "https://client-ten-navy.vercel.app/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173/home");
+    res.redirect("https://client-ten-navy.vercel.app/home");
   }
 );
 
 Auth.get(
   "/auth/github",
-  passport.authenticate("github", { scope: ["user:email"],allow_signup: true})
+  passport.authenticate("github", { scope: ["user:email"], allow_signup: true })
 );
 
 Auth.get(
   "/auth/github/callback",
   passport.authenticate("github", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "https://client-ten-navy.vercel.app/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173/home");
+    res.redirect("https://client-ten-navy.vercel.app/home");
   }
 );
 
