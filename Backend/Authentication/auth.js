@@ -65,10 +65,10 @@ Auth.get(
 Auth.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "https://client-ten-navy.vercel.app/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173/home");
+    res.redirect("https://client-ten-navy.vercel.app/home");
   }
 );
 
@@ -80,10 +80,10 @@ Auth.get(
 Auth.get(
   "/auth/github/callback",
   passport.authenticate("github", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "https://client-ten-navy.vercel.app/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173/home");
+    res.redirect("https://client-ten-navy.vercel.app/home");
   }
 );
 
