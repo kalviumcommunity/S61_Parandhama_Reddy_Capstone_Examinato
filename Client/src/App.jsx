@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import QuizComponent from "./Components/QuizComponent";
 import QuizPreview from "./Components/QuizPreview";
@@ -17,6 +17,15 @@ import ResultPage from "./Pages/ResultPage";
 function App() {
   const [questions, setQuestions] = useState([]);
   const [currentTopic, setCurrentTopic] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag('config', 'G-N6WKF8LBVF', {
+        page_path: location.pathname,
+      });
+    }
+  }, [location]);
 
   const handleAddQuestion = (newQuestion) => {
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);

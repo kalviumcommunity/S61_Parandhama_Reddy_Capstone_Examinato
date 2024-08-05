@@ -67,10 +67,11 @@ const PinVerification = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Please enter your Phone Number to get he code</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Please enter your Phone Number to get the code
+      </h1>
       <div id="recaptcha-container"></div>
       {showOTP ? (
         <form
