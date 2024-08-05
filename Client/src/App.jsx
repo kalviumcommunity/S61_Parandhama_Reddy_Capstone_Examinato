@@ -13,6 +13,7 @@ import PinVerification from "./Components/PinVerification";
 import Quizzes from "./Components/Quizzes";
 import QuizAttempt from "./Components/QuizAttempt";
 import ResultPage from "./Pages/ResultPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -67,6 +68,7 @@ function App() {
         <Route path="/quiz/:type" element={<QuizAttempt />} />
         <Route path="/results" element={<ResultPage />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }
