@@ -13,6 +13,7 @@ import PinVerification from "./Components/PinVerification";
 import Quizzes from "./Components/Quizzes";
 import QuizAttempt from "./Components/QuizAttempt";
 import ResultPage from "./Pages/ResultPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -21,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (window.gtag) {
-      window.gtag('config', 'G-N6WKF8LBVF', {
+      window.gtag("config", "G-N6WKF8LBVF", {
         page_path: location.pathname,
       });
     }
@@ -62,11 +63,12 @@ function App() {
           path="/quiz-preview"
           element={<QuizPreview questions={questions} />}
         />
-        <Route path="/pin-verification" element={<PinVerification />} />
+        {/*<Route path="/pin-verification" element={<PinVerification />} />*/}
         <Route path="/quizzes" element={<Quizzes />} />
         <Route path="/quiz/:type" element={<QuizAttempt />} />
         <Route path="/results" element={<ResultPage />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }

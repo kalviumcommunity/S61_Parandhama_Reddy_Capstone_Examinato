@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,9 +23,8 @@ const PinVerification = () => {
       const recaptchaVerifier = new RecaptchaVerifier(
         auth,
         "recaptcha-container",
-        {
-          size: "invisible",
-        }
+        { size: "invisible", callback: (response) => console.log(response) },
+        auth
       );
 
       const formatPh = "+" + ph;
@@ -40,10 +38,12 @@ const PinVerification = () => {
         })
         .catch((error) => {
           setLoading(false);
+          console.error("Error sending OTP:", error);
           toast.error("Failed to send OTP. Please try again.");
         });
     } catch (error) {
       setLoading(false);
+      console.error("Error initializing reCAPTCHA:", error);
       toast.error("Failed to initialize reCAPTCHA. Please try again.");
     }
   };
@@ -60,6 +60,7 @@ const PinVerification = () => {
         })
         .catch((err) => {
           setLoading(false);
+          console.error("Error verifying OTP:", err);
           toast.error("Invalid OTP. Please try again.");
         });
     } else {

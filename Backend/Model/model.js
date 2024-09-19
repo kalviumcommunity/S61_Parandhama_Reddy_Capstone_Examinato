@@ -12,6 +12,7 @@ const quizSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  imageUrl: String,
 });
 
 const quizModel = mongoose.model("data", quizSchema);

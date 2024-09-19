@@ -50,5 +50,7 @@ app.use("/api", router);
 app.use(auth);
 app.use("/auth", authRoute);
 
+app.use('/uploads', express.static('uploads'));
+
 
 module.exports = app;

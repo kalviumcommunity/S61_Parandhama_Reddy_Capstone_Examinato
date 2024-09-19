@@ -14,6 +14,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const QuizPreview = () => {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ const QuizPreview = () => {
       // quizData.questions = updatedQuestions;
       setSelectedQuestionIndex(null);
       onClose();
+      toast.success("Question updated successfully!");
     }
   };
 
@@ -118,11 +120,11 @@ const QuizPreview = () => {
 
         if (response.status === 201) {
           // console.log("Quiz posted successfully!");
-          alert("Quiz posted successfully!");
+          toast.success("Quiz posted successfully!");
         }
       } catch (error) {
         // console.error("Error posting the quiz:", error);
-        alert("Failed to post the quiz");
+        toast.error("Failed to post the quiz");
       }
     }
   };
