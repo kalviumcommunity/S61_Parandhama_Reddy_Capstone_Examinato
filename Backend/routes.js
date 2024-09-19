@@ -6,11 +6,35 @@ const cookieParser = require("cookie-parser");
 const app = express();
 app.use(cookieParser());
 const authMiddleware = require("./Authentication/authMiddleware");
+const multer = require('multer');
+const path = require('path');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-router.post("/postquiz", authMiddleware, async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Not an image! Please upload an image.'), false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
+
+router.post("/postquiz", authMiddleware, upload.single('image'), async (req, res) => {
   const quizData = req.body;
+  if (req.file) {
+    quizData.imageUrl = `/uploads/${req.file.filename}`;
+  }
 
   try {
     const { error } = quizSchema.validate(quizData);
@@ -70,7 +94,7 @@ router.put("/updatequiz/:id", authMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/deletequiz", authMiddleware, async (req, res) => {
+router.delete("/deletequiz/:id", authMiddleware, async (req, res) => {
   const quizId = req.params.id;
   try {
     const deletedQuiz = await Quiz.findByIdAndDelete(quizId);

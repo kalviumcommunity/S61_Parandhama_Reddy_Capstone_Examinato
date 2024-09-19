@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (window.gtag) {
-      window.gtag('config', 'G-N6WKF8LBVF', {
+      window.gtag("config", "G-N6WKF8LBVF", {
         page_path: location.pathname,
       });
     }
@@ -63,7 +63,7 @@ function App() {
           path="/quiz-preview"
           element={<QuizPreview questions={questions} />}
         />
-        <Route path="/pin-verification" element={<PinVerification />} />
+        {/*<Route path="/pin-verification" element={<PinVerification />} />*/}
         <Route path="/quizzes" element={<Quizzes />} />
         <Route path="/quiz/:type" element={<QuizAttempt />} />
         <Route path="/results" element={<ResultPage />} />

@@ -9,7 +9,7 @@ const HomePage = ({ topics, onStartQuiz }) => {
   const navigate = useNavigate();
 
   const handleJoinQuiz = () => {
-    navigate("/pin-verification");
+    navigate("/quizzes");
   };
 
   return (
