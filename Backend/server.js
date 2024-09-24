@@ -49,7 +49,7 @@ app.use("/auth", authRoute);
 app.use('/uploads', express.static('uploads'));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 app.listen(port, () => {

@@ -18,15 +18,17 @@ const QuizComponent = ({ handleAddQuestion }) => {
 
   const handleAddOption = () => {
     if (currentOptions.length < 4) {
-      setCurrentOptions([...currentOptions, ""]);
-      setOptionsFiles([...optionsFiles, ""]);
+      setCurrentOptions((prev) => [...prev, ""]);
+      setOptionsFiles((prev) => [...prev, ""]);
     }
   };
 
   const handleOptionChange = (index, value) => {
-    const updatedOptions = [...currentOptions];
-    updatedOptions[index] = value;
-    setCurrentOptions(updatedOptions);
+    setCurrentOptions((prev) => {
+      const updatedOptions = [...prev];
+      updatedOptions[index] = value;
+      return updatedOptions;
+    });
   };
 
   const handleFileChange = (event) => {
@@ -43,9 +45,11 @@ const QuizComponent = ({ handleAddQuestion }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const updatedFiles = [...optionsFiles];
-        updatedFiles[index] = e.target.result;
-        setOptionsFiles(updatedFiles);
+        setOptionsFiles((prev) => {
+          const updatedFiles = [...prev];
+          updatedFiles[index] = e.target.result;
+          return updatedFiles;
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -57,41 +61,45 @@ const QuizComponent = ({ handleAddQuestion }) => {
       ? optionsFiles
       : currentOptions.filter((opt) => opt.trim() !== "");
 
-    if (questionType.trim() !== "" && correctAnswer.trim() !== "") {
+    if (questionType.trim() && correctAnswer.trim()) {
       const newQuestion = {
         question: questionContent,
         options: optionsContent,
         type: questionType,
         correctAnswer: correctAnswer,
       };
-      setQuestions([...questions, newQuestion]);
-      console.log("New question added:", newQuestion);
+      setQuestions((prev) => [...prev, newQuestion]);
       handleAddQuestion(newQuestion);
-      setCurrentQuestion("");
-      setCurrentOptions(["", ""]);
-      setQuestionType("");
-      setCorrectAnswer("");
-      setQuestionFile(null);
-      setOptionsFiles(["", ""]);
+      resetForm();
     } else {
       alert("Please fill out the question type and correct answer fields!");
     }
+  };
+
+  const resetForm = () => {
+    setCurrentQuestion("");
+    setCurrentOptions(["", ""]);
+    setQuestionType("");
+    setCorrectAnswer("");
+    setQuestionFile(null);
+    setOptionsFiles(["", ""]);
   };
 
   const handlePostQuizToApi = async () => {
     const quizData = {
       id: Math.random().toString(36).substr(2, 9),
       title: " ",
-      questions: questions.map((q) => ({
-        question: q.question,
-        options: q.options,
-        correctAnswer: q.correctAnswer,
-        type: q.type,
-      })),
+      questions: questions.map(
+        ({ question, options, correctAnswer, type }) => ({
+          question,
+          options,
+          correctAnswer,
+          type,
+        })
+      ),
     };
 
     try {
-      console.log("Quiz data to be sent:", quizData);
       navigate("/quiz-preview", { state: { quizData } });
     } catch (error) {
       console.error("Error posting quiz:", error);
@@ -155,7 +163,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
             <input
               type="file"
               onChange={handleFileChange}
-              className="rounded w-[50%] m-0 "
+              className="rounded w-[50%] m-0"
             />
           </div>
           <input
@@ -182,7 +190,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
                 <input
                   type="file"
                   onChange={(e) => handleOptionFileChange(index, e)}
-                  className="rounded w-[50%] m-0 "
+                  className="rounded w-[50%] m-0"
                 />
               </div>
             ))}

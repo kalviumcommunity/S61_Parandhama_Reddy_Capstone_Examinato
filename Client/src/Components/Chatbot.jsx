@@ -66,39 +66,52 @@ const Chatbot = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={generateAnswer} className="mb-4">
+    <div className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
+      <form onSubmit={generateAnswer} className="mb-6 w-full max-w-2xl">
         <textarea
           required
-          className="border border-gray-300 rounded w-full my-2 min-h-fit p-3 transition-all duration-300 focus:border-blue-400 focus:shadow-lg"
+          className="border border-gray-300 rounded-lg w-full p-4 my-3 min-h-24 transition-all duration-300 focus:border-blue-500 focus:shadow-lg"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Ask anything"
+          placeholder="Ask anything..."
         ></textarea>
-        <button
-          type="submit"
-          className={`bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition-all duration-300 ${
-            generatingAnswer ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={generatingAnswer}
-        >
-          Generate answer
-        </button>
-        <button
-          type="button"
-          onClick={handleClearConversation}
-          className="bg-red-500 text-white p-3 rounded-md hover:bg-red-600 transition-all duration-300 ml-2"
-        >
-          Clear
-        </button>
+        <div className="flex justify-between items-center">
+          <button
+            type="submit"
+            className={`bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-all duration-300 ${
+              generatingAnswer ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={generatingAnswer}
+          >
+            {generatingAnswer ? "Generating..." : "Generate Answer"}
+          </button>
+          <button
+            type="button"
+            onClick={handleClearConversation}
+            className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition-all duration-300"
+          >
+            Clear
+          </button>
+        </div>
       </form>
-      <div className="overflow-y-auto max-h-60">
-        {conversation.map((conv, index) => (
-          <div key={index} className="mb-4">
-            <p className="font-bold"> {conv.question}</p>
-            <ReactMarkdown>{conv.answer}</ReactMarkdown>
-          </div>
-        ))}
+      <div className="w-full max-w-2xl p-4 bg-white shadow-lg rounded-lg overflow-y-auto max-h-96">
+        {conversation.length === 0 ? (
+          <p className="text-gray-400 text-center">Start the conversation!</p>
+        ) : (
+          conversation.map((conv, index) => (
+            <div
+              key={index}
+              className="mb-4 p-3 bg-gray-100 rounded-md shadow-sm"
+            >
+              <p className="font-semibold text-blue-700 mb-1">
+                {conv.question}
+              </p>
+              <div className="text-gray-700">
+                <ReactMarkdown>{conv.answer}</ReactMarkdown>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
