@@ -114,25 +114,29 @@ const QuizAttempt = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="container mx-auto mt-8 border-2 p-4 h-auto">
-      <div className="flex flex-col md:flex-row items-center md:items-start">
+    <div className="container mx-auto mt-8 border-2 p-6 rounded-lg shadow-lg">
+      <div className="flex flex-col md:flex-row items-start">
         {/* Left side div (scrollable) */}
-        <div className="w-full md:w-[25%] bg-white border h-auto overflow-y-auto shadow-lg rounded p-5 hidden md:block">
+        <div className="w-full md:w-1/4 bg-gray-100 border-r h-[calc(100vh-150px)] overflow-y-auto shadow-md rounded-lg p-4 hidden md:block">
           {questions.map((q, index) => (
             <Card
               key={index}
-              className="border-[1px] py-5 px-2 mb-5 text-[12px]"
+              className={`mb-4 p-4 cursor-pointer transition duration-300 hover:bg-gray-200 ${
+                currentQuestionIndex === index
+                  ? "border-blue-500"
+                  : "border-gray-300"
+              }`}
               onClick={() => setCurrentQuestionIndex(index)}
             >
-              <div className="mb-5 font-bold">{q.question}</div>
-              <div className="grid grid-cols-2 grid-rows-2 gap-2">
+              <div className="mb-3 font-semibold text-sm">{q.question}</div>
+              <div className="grid grid-cols-2 gap-2">
                 {q.options.map((option, optionIndex) => (
                   <button
                     key={optionIndex}
-                    className={`py-1 px-2 rounded-md ${
+                    className={`py-1 px-2 text-xs rounded-md ${
                       answers[q.id] === option
                         ? "bg-blue-500 text-white"
-                        : "bg-slate-500 text-black"
+                        : "bg-gray-300 text-black"
                     }`}
                     disabled
                   >
@@ -144,28 +148,25 @@ const QuizAttempt = () => {
           ))}
         </div>
         {/* Right side div (current question) */}
-        <div className="w-full border-2 py-10 px-24 md:w-[70%] md:ml-8 mt-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
+        <div className="w-full md:w-3/4 md:pl-8 mt-4 md:mt-0 py-28">
+          <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">
             Quiz on {type}
           </h1>
-          <div className="relative h-auto w-full">
+          <div className="relative h-auto w-full bg-white shadow-lg rounded-lg p-6 pb-48">
             {currentQuestion && (
-              <div
-                key={currentQuestion.id}
-                className="flex flex-col items-center"
-              >
-                <h2 className="text-xl md:text-2xl font-semibold mb-2">
+              <div className="flex flex-col items-center">
+                <h2 className="text-lg md:text-xl font-semibold mb-4">
                   {currentQuestion.question}
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {currentQuestion.options.map((option, index) => (
                     <button
                       key={index}
-                      className={`py-2 md:py-4 px-4 md:px-6 rounded-md ${
+                      className={`py-2 md:py-3 px-4 md:px-6 rounded-md transition duration-200 ease-in-out transform ${
                         answers[currentQuestion.id] === option
-                          ? "bg-blue-500 text-white"
-                          : "bg-slate-500 text-black"
-                      }`}
+                          ? "bg-blue-500 text-white scale-105"
+                          : "bg-gray-300 text-black"
+                      } hover:bg-gray-400`}
                       onClick={() =>
                         handleAnswerChange(currentQuestion.id, option)
                       }
@@ -174,16 +175,14 @@ const QuizAttempt = () => {
                     </button>
                   ))}
                 </div>
-                <div className="flex justify-center items-center">
-                  <button
-                    className="py-2 px-4 bg-blue-500 text-white rounded-md mt-4"
-                    onClick={handleNextQuestion}
-                  >
-                    {currentQuestionIndex < questions.length - 1
-                      ? "Next Question"
-                      : "Verify Answers"}
-                  </button>
-                </div>
+                <button
+                  className="py-2 px-6 bg-blue-500 text-white rounded-md mt-6 hover:bg-blue-600 transition duration-300"
+                  onClick={handleNextQuestion}
+                >
+                  {currentQuestionIndex < questions.length - 1
+                    ? "Next Question"
+                    : "Verify Answers"}
+                </button>
               </div>
             )}
           </div>

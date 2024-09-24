@@ -3,7 +3,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
-import { Flex, Button, Input } from "@chakra-ui/react";
+import { Flex, Button, Input, Box, Text } from "@chakra-ui/react";
 
 const HomePage = ({ topics, onStartQuiz }) => {
   const navigate = useNavigate();
@@ -14,90 +14,99 @@ const HomePage = ({ topics, onStartQuiz }) => {
 
   return (
     <>
-      <div className="px-3 py-5 sticky top-0">
+      <Box px={4} py={6} bg="white" shadow="md" className="sticky top-0 z-10">
         <Navbar />
-      </div>
+      </Box>
+
       <Flex
         justify="center"
         align="center"
-        gap={20}
-        m={10}
+        gap={8}
+        my={10}
         fontFamily="Roboto"
         fontStyle="serif"
       >
         <Link to={"/create-quiz"}>
           <Button
-            px={4}
-            py={2}
-            bg="black"
+            px={6}
+            py={3}
+            bg="teal.500"
             color="white"
             rounded="xl"
-            _hover={{ bg: "gray.800" }}
+            _hover={{ bg: "teal.600" }}
+            shadow="md"
+            fontWeight="bold"
           >
             Create Quiz
           </Button>
         </Link>
+
         <Button
           onClick={handleJoinQuiz}
-          px={4}
-          py={2}
-          bg="black"
+          px={6}
+          py={3}
+          bg="red.500"
           color="white"
           rounded="xl"
-          _hover={{ bg: "gray.800" }}
+          _hover={{ bg: "red.600" }}
+          shadow="md"
+          fontWeight="bold"
         >
           Join Quiz
         </Button>
       </Flex>
-      <Flex justify="center" fontFamily="Roboto" fontStyle="serif">
+
+      <Flex justify="center" mb={8} fontFamily="Roboto" fontStyle="serif">
         <Input
           type="text"
           placeholder="Enter type of Quiz"
-          borderWidth="1px"
-          borderColor="black"
-          w="50%"
-          p={2}
+          borderColor="gray.400"
+          focusBorderColor="black"
+          w={{ base: "90%", md: "50%" }}
+          p={3}
           rounded="xl"
-          shadow="inner"
+          shadow="sm"
         />
       </Flex>
-      <div
-        style={{ padding: "20px", borderRadius: "5px" }}
-        className="shadow-container"
+
+      <Box
+        p={8}
+        mx="auto"
+        maxW="container.lg"
+        bg="white"
+        shadow="lg"
+        rounded="xl"
+        border="1px solid"
+        borderColor="gray.300"
       >
-        <div
-          style={{
-            backgroundColor: "#fff",
-            border: "1px solid #ddd",
-            borderRadius: "5px",
-            padding: "20px",
-          }}
-        >
-          {topics.map((topic, index) => (
-            <div key={index} className="border-b-[1px] border-b-black px-5">
-              <div className="flex justify-between items-center m-5">
-                <h3 style={{ textAlign: "center" }}>
-                  <strong>{topic.name}</strong>
-                </h3>
-                <Button
-                  onClick={() => onStartQuiz(topic)}
-                  w="auto"
-                  px={4}
-                  py={2}
-                  bg="#FF0000"
-                  color="#000000"
-                  border="none"
-                  rounded="xl"
-                  cursor="pointer"
-                  mt={3}
-                >
-                  Start Quiz
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+        {topics.map((topic, index) => (
+          <Box
+            key={index}
+            borderBottom="1px"
+            borderColor="gray.300"
+            py={4}
+            _last={{ borderBottom: "none" }}
+          >
+            <Flex justify="space-between" align="center">
+              <Text fontSize="xl" fontWeight="bold" textAlign="left">
+                {topic.name}
+              </Text>
+              <Button
+                onClick={() => onStartQuiz(topic)}
+                px={4}
+                py={2}
+                bg="blue.500"
+                color="white"
+                rounded="xl"
+                _hover={{ bg: "blue.600" }}
+                shadow="md"
+              >
+                Start Quiz
+              </Button>
+            </Flex>
+          </Box>
+        ))}
+      </Box>
     </>
   );
 };

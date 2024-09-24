@@ -27,7 +27,6 @@ const QuizPreview = () => {
   const [updatedQuestionContent, setUpdatedQuestionContent] = useState("");
   const [updatedOptions, setUpdatedOptions] = useState([]);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
-
   const [authorId, setAuthorId] = useState(null);
 
   useEffect(() => {
@@ -54,7 +53,6 @@ const QuizPreview = () => {
   const handleDelete = (index) => {
     const updatedQuestions = questions.filter((_, qIndex) => qIndex !== index);
     setQuestions(updatedQuestions);
-    // quizData.questions = updatedQuestions;
     setSelectedQuestionIndex(null);
   };
 
@@ -65,7 +63,6 @@ const QuizPreview = () => {
       updatedQuestions[selectedQuestionIndex].options = updatedOptions;
       setQuestions(updatedQuestions);
 
-      // quizData.questions = updatedQuestions;
       setSelectedQuestionIndex(null);
       onClose();
       toast.success("Question updated successfully!");
@@ -93,6 +90,9 @@ const QuizPreview = () => {
   const handlePostQuiz = async () => {
     console.log("Questions to be posted:", questions);
 
+    // Show toast immediately when the quiz post starts
+    toast.info("Posting quiz...");
+
     for (const question of questions) {
       const quizToPost = {
         id: Math.floor(Math.random() * 1000000),
@@ -103,8 +103,6 @@ const QuizPreview = () => {
         correctAnswer: question.correctAnswer,
         author: authorId,
       };
-
-      // console.log("Quiz data being sent:", quizToPost);
 
       try {
         const token = getCookie("token");
@@ -119,11 +117,14 @@ const QuizPreview = () => {
         );
 
         if (response.status === 201) {
-          // console.log("Quiz posted successfully!");
           toast.success("Quiz posted successfully!");
+
+          // Redirect to home page after successful quiz post
+          setTimeout(() => {
+            navigate("/home");
+          }, 1500); // Delay for user to see the success toast before redirect
         }
       } catch (error) {
-        // console.error("Error posting the quiz:", error);
         toast.error("Failed to post the quiz");
       }
     }

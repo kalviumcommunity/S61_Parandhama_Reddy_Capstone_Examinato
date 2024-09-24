@@ -30,10 +30,8 @@ const Quizzes = () => {
             },
           }
         );
-        console.log("Fetched quiz data:", response.data); // Added logging
         setQuizData(response.data);
       } catch (error) {
-        console.error("Error fetching quiz data:", error);
         setError("Failed to load quiz data.");
       }
     };
@@ -52,10 +50,7 @@ const Quizzes = () => {
               })
               .join("")
           );
-
           const decodedToken = JSON.parse(jsonPayload);
-
-          console.log("Decoded Token:", decodedToken);
 
           if (decodedToken.user && decodedToken.user.name) {
             const userName = decodedToken.user.name;
@@ -64,12 +59,10 @@ const Quizzes = () => {
               { id: decodedToken.user.id, fullName: userName },
             ]);
           } else {
-            console.error("Decoded token does not contain a valid user name.");
             setError("Failed to load authors.");
           }
         }
       } catch (error) {
-        console.error("Error decoding token or fetching author:", error);
         setError("Failed to load authors.");
       } finally {
         setLoading(false);
@@ -101,11 +94,11 @@ const Quizzes = () => {
   const uniqueTypes = [...new Set(filteredData.map((item) => item.type))];
 
   return (
-    <Box className="p-10 bg-yellow-200 w-full h-auto font-roboto-serif">
-      <Box className="flex justify-end mb-4">
+    <Box className="p-8 bg-yellow-200 min-h-screen">
+      <Box className="flex justify-between items-center mb-6">
         {authors.length > 1 && (
-          <FormControl className="flex justify-end items-center">
-            <FormLabel htmlFor="author-switch" mb="0">
+          <FormControl className="flex items-center">
+            <FormLabel htmlFor="author-switch" mb="0" className="text-gray-600">
               {selectedAuthor === "All" ? "All" : authors[1].fullName}
             </FormLabel>
             <Switch
@@ -116,20 +109,25 @@ const Quizzes = () => {
             />
           </FormControl>
         )}
+        <Button
+          colorScheme="red"
+          size="md"
+          className="transition-all duration-300 ease-in-out transform hover:scale-105"
+          onClick={() => navigate("/home")}
+        >
+          Leave Quiz
+        </Button>
       </Box>
-      <Button colorScheme="red" onClick={() => navigate("/home")}>
-        Leave Quiz
-      </Button>
       <Heading
         as="h1"
-        className="text-2xl text-center text-slate-600 font-bold my-4"
+        className="text-3xl font-bold text-center text-gray-700 mb-6"
       >
         Available Quizzes
       </Heading>
-      <Text className="text-center text-slate-700">
-        To start with topic{" "}
-        <Text as="span" className="text-red-600">
-          Please click on the respective topic to start the Quiz
+      <Text className="text-lg text-center text-gray-500 mb-4">
+        To start a quiz,{" "}
+        <Text as="span" className="text-teal-500 font-semibold">
+          select a topic below
         </Text>
       </Text>
       <Box
@@ -139,16 +137,17 @@ const Quizzes = () => {
           md: "repeat(2, 1fr)",
           lg: "repeat(3, 1fr)",
         }}
-        gap={6}
-        mt={6}
+        gap={8}
+        mt={8}
+        className="mx-auto max-w-5xl"
       >
         {uniqueTypes.map((type, index) => (
           <Box
             key={index}
-            className="h-40 text-center bg-teal-500 text-white flex items-center justify-center rounded-lg shadow-lg cursor-pointer"
-            onClick={() => navigate(`/quiz/${type}`)} // Ensure correct URL format
+            className="h-48 flex items-center justify-center bg-teal-500 text-white rounded-lg shadow-xl hover:shadow-2xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
+            onClick={() => navigate(`/quiz/${type}`)}
           >
-            <Text className="text-xl font-bold">{type}</Text>
+            <Text className="text-2xl font-bold">{type}</Text>
           </Box>
         ))}
       </Box>
