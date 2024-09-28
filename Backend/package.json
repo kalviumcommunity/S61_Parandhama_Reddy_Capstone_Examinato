@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "watch": "chokidar 'src/**/*.{js,jsx,ts,tsx}' -c 'npm run build'"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
     "nodemon": "^3.1.0"
   },
   "description": ""
