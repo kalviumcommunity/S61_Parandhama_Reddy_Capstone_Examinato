@@ -2,62 +2,62 @@ const express = require("express");
 const router = express.Router();
 const QuizModel = require("./Model/model");
 const quizSchema = require("./Model/joiValidation");
-const cookieParser = require("cookie-parser");
-const app = express();
-app.use(cookieParser());
 const authMiddleware = require("./Authentication/authMiddleware");
-const multer = require('multer');
-const path = require('path');
-
-const JWT_SECRET = process.env.JWT_SECRET;
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
+  if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error('Not an image! Please upload an image.'), false);
+    cb(new Error("Not an image! Please upload an image."), false);
   }
 };
 
 const upload = multer({ storage, fileFilter });
 
-router.post("/postquiz", authMiddleware, upload.single('image'), async (req, res) => {
-  const quizData = req.body;
-  if (req.file) {
-    quizData.imageUrl = `/uploads/${req.file.filename}`;
-  }
-
-  try {
-    const { error } = quizSchema.validate(quizData);
-    if (error) {
-      return res.status(400).json({ error: error.message });
+router.post(
+  "/postquiz",
+  authMiddleware,
+  upload.single("image"),
+  async (req, res) => {
+    const quizData = req.body;
+    if (req.file) {
+      quizData.imageUrl = `/uploads/${req.file.filename}`;
     }
 
-    if (!req.user || !req.user.id) {
-      return res.status(400).json({ error: "Author ID is missing" });
+    try {
+      const { error } = quizSchema.validate(quizData);
+      if (error) {
+        return res.status(400).json({ error: error.message });
+      }
+
+      if (!req.user || !req.user.id) {
+        return res.status(400).json({ error: "Author ID is missing" });
+      }
+
+      quizData.author = req.user.id;
+
+      const quiz = new QuizModel(quizData);
+      const savedQuiz = await quiz.save();
+      res
+        .status(201)
+        .json({ message: "Quiz data posted successfully", data: savedQuiz });
+    } catch (error) {
+      console.error("Error posting the quiz data:", error);
+      res.status(500).json({ error: "Unable to post quiz data" });
     }
-
-    quizData.author = req.user.id;
-
-    const quiz = new QuizModel(quizData);
-    const savedQuiz = await quiz.save();
-    res
-      .status(201)
-      .json({ message: "Quiz data posted successfully", data: savedQuiz });
-  } catch (error) {
-    console.error("Error posting the quiz data:", error);
-    res.status(500).json({ error: "Unable to post quiz data" });
   }
-});
+);
 
 router.get("/getquiz", async (req, res) => {
   try {
@@ -75,7 +75,7 @@ router.put("/updatequiz/:id", authMiddleware, async (req, res) => {
   const quizId = req.params.id;
 
   try {
-    const updatedQuiz = await Quiz.findByIdAndUpdate(
+    const updatedQuiz = await QuizModel.findByIdAndUpdate(
       quizId,
       { $set: req.body },
       { new: true }
@@ -97,7 +97,7 @@ router.put("/updatequiz/:id", authMiddleware, async (req, res) => {
 router.delete("/deletequiz/:id", authMiddleware, async (req, res) => {
   const quizId = req.params.id;
   try {
-    const deletedQuiz = await Quiz.findByIdAndDelete(quizId);
+    const deletedQuiz = await QuizModel.findByIdAndDelete(quizId);
     if (!deletedQuiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
