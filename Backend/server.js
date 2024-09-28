@@ -47,6 +47,7 @@ app.use(auth);
 app.use("/auth", authRoute);
 
 app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));

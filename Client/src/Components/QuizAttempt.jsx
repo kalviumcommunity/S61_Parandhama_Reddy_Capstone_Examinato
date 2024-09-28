@@ -16,8 +16,6 @@ const QuizAttempt = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
-    console.log("Quiz type:", type);
-
     const fetchQuestions = async () => {
       try {
         const token = getCookie("token");
@@ -36,7 +34,6 @@ const QuizAttempt = () => {
           }
         );
 
-        console.log("Fetched quiz data:", response.data);
         if (Array.isArray(response.data) && response.data.length > 0) {
           let filteredQuestions = response.data;
           if (selectedAuthor !== "All") {
@@ -47,7 +44,7 @@ const QuizAttempt = () => {
           filteredQuestions = filteredQuestions.filter(
             (question) => question.type.toUpperCase() === type.toUpperCase()
           );
-          console.log("Filtered questions:", filteredQuestions);
+
           setQuestions(filteredQuestions);
 
           const initialAnswers = {};
@@ -128,7 +125,22 @@ const QuizAttempt = () => {
               }`}
               onClick={() => setCurrentQuestionIndex(index)}
             >
-              <div className="mb-3 font-semibold text-sm">{q.question}</div>
+              <div className="mb-3 font-semibold text-sm">
+                {q.question.startsWith("data:image/") ? (
+                  <img
+                    src={q.question}
+                    alt="Question"
+                    className="px-20 h-auto w-auto  rounded-md"
+                    style={{
+                      maxHeight: "60px",
+                      maxWidth: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  q.question
+                )}
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 {q.options.map((option, optionIndex) => (
                   <button
@@ -155,9 +167,22 @@ const QuizAttempt = () => {
           <div className="relative h-auto w-full bg-white shadow-lg rounded-lg p-6 pb-48">
             {currentQuestion && (
               <div className="flex flex-col items-center">
-                <h2 className="text-lg md:text-xl font-semibold mb-4">
-                  {currentQuestion.question}
-                </h2>
+                {currentQuestion.question.startsWith("data:image/") ? (
+                  <img
+                    src={currentQuestion.question}
+                    alt="Question"
+                    className="mb-4 rounded-md"
+                    style={{
+                      maxHeight: "300px",
+                      maxWidth: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <h2 className="text-lg md:text-xl font-semibold mb-4">
+                    {currentQuestion.question}
+                  </h2>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {currentQuestion.options.map((option, index) => (
                     <button
