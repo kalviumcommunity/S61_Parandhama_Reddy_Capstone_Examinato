@@ -91,7 +91,10 @@ const Quizzes = () => {
       ? quizData
       : quizData.filter((item) => item.author === selectedAuthor);
 
-  const uniqueTypes = [...new Set(filteredData.map((item) => item.type))];
+  // Create unique types from the filtered data, normalizing to lowercase
+  const uniqueTypes = Array.from(
+    new Set(filteredData.map((item) => item.type.trim().toUpperCase()))
+  );
 
   return (
     <Box className="p-8 bg-yellow-200 min-h-screen">
