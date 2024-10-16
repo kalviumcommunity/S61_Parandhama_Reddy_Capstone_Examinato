@@ -23,7 +23,7 @@ const Quizzes = () => {
     const fetchQuizData = async () => {
       try {
         const response = await axios.get(
-          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz",
+          "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/api/getquiz",
           {
             headers: {
               Authorization: `Bearer ${getCookie("token")}`,

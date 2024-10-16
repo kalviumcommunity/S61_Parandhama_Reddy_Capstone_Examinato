@@ -33,7 +33,7 @@ const LoginForm = () => {
 
     try {
       const response = await fetch(
-        "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/login",
+        "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
