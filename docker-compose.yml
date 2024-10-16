@@ -5,7 +5,7 @@ services:
     build:
       context: ./Backend 
     ports:
-      - '5000:8000'
+      - '8000:8000'
     environment:
       - MONGODB_URI=mongodb+srv://ParandhamaCapstone:sunny%40123@capstone.wikcwwo.mongodb.net/ParandhamaReddy?retryWrites=true&w=majority&appName=Capstone
     depends_on:
