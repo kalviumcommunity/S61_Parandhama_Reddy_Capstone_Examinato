@@ -23,15 +23,17 @@ const Quizzes = () => {
     const fetchQuizData = async () => {
       try {
         const response = await axios.get(
-          "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/api/getquiz",
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/getquiz",
           {
             headers: {
               Authorization: `Bearer ${getCookie("token")}`,
             },
           }
         );
+        console.log(response.data)
         setQuizData(response.data);
       } catch (error) {
+        console.log(error)
         setError("Failed to load quiz data.");
       }
     };
@@ -39,6 +41,7 @@ const Quizzes = () => {
     const fetchAuthorFromToken = async () => {
       try {
         const token = getCookie("token");
+        console.log(token)
         if (token) {
           const base64Url = token.split(".")[1];
           const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
