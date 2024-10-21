@@ -1,8 +1,10 @@
 services:
   - type: web
     name: client
-    env: docker
-    dockerfilePath: ./Client/Dockerfile
+    env: static
+    staticPublishPath: build
+    buildCommand: npm install && npm run build
+    plan: free
     envVars:
       - key: REACT_APP_API_URL
         value: https://s61-parandhama-reddy-capstone-examinato.onrender.com/
@@ -12,6 +14,7 @@ services:
     env: docker
     dockerfilePath: ./Backend/Dockerfile
     autoDeploy: true
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
