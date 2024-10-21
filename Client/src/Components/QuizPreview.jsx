@@ -107,7 +107,7 @@ const QuizPreview = () => {
       try {
         const token = getCookie("token");
         const response = await axios.post(
-          "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/api/postquiz",
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/postquiz",
           quizToPost,
           {
             headers: {
@@ -122,7 +122,7 @@ const QuizPreview = () => {
           // Redirect to home page after successful quiz post
           setTimeout(() => {
             navigate("/home");
-          }, 1500); // Delay for user to see the success toast before redirect
+          }, 1000);
         }
       } catch (error) {
         toast.error("Failed to post the quiz");
