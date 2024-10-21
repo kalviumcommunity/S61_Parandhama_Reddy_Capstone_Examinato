@@ -3,20 +3,19 @@ services:
     name: client
     env: static
     staticPublishPath: /build
-    dockerfilePath: ./client/Dockerfile
+    dockerfilePath: ./Client/Dockerfile
     envVars:
       - key: REACT_APP_API_URL
-        value: https://your-backend-service-name.onrender.com
-
+        value: https://s61-parandhama-reddy-capstone-examinato.onrender.com/
   - type: web
     name: backend
     env: docker
-    dockerfilePath: ./backend/Dockerfile
+    dockerfilePath: ./Backend/Dockerfile
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: your-mongo-connection-string
+        value: MONGODB_URI=mongodb+srv://ParandhamaCapstone:sunny%40123@capstone.wikcwwo.mongodb.net/ParandhamaReddy?retryWrites=true&w=majority&appName=Capstone
       - key: JWT_SECRET
-        value: your-jwt-secret
+        value: Secret
