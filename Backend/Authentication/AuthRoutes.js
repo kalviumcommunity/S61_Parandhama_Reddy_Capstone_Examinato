@@ -24,9 +24,9 @@ router.post('/signin', async (req, res) => {
     const payload = {
       user: {
         id: user._id,
-        name:user.fullname,
+        name: user.fullname,
         mail: user.email,
-        password:  user.password,
+        password: user.password,
       },
     };
 
@@ -36,7 +36,13 @@ router.post('/signin', async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.cookie('token', token, { httpOnly: true, maxAge: 360000 });
+        console.log("Generated Token:", token);
+        res.cookie('token', token, { 
+          httpOnly: true, 
+          maxAge: 3600000,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'None',
+        });
         res.status(201).json({ message: 'User created successfully', token });
       }
     );
@@ -63,7 +69,7 @@ router.post('/login', async (req, res) => {
     const payload = {
       user: {
         id: user._id,
-        name:user.fullname,
+        name: user.fullname,
         mail: user.email,
         password: user.password
       },
@@ -75,7 +81,13 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.cookie('token', token, { httpOnly: true, maxAge: 360000 });
+        console.log("Generated Token:", token);
+        res.cookie('token', token, { 
+          httpOnly: true, 
+          maxAge: 3600000,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'None',
+        });
         res.status(200).json({ message: 'Login successful', token });
       }
     );
