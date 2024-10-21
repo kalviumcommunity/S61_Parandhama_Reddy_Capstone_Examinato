@@ -3,7 +3,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const auth = (req, res, next) => {
   const authHeader = req.header("Authorization");
-  console.log("Authorization Header:", authHeader); // Debugging log
+  console.log("Authorization Header:", authHeader);
 
   if (!authHeader) {
     return res.status(401).send("Access denied. No token provided.");
@@ -17,11 +17,11 @@ const auth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log("Decoded Token:", decoded); // Debugging log
+    console.log("Decoded Token:", decoded);
     req.user = decoded.user;
     next();
   } catch (error) {
-    console.error("Token verification error:", error); // Debugging log
+    console.error("Token verification error:", error);
     res.status(400).send("Invalid token.");
   }
 };

@@ -33,13 +33,17 @@ const LoginForm = () => {
 
     try {
       const response = await fetch(
-        "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/auth/login",
+        "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
@@ -50,8 +54,8 @@ const LoginForm = () => {
         toast.error(data.message);
       }
     } catch (err) {
-      console.error(err);
-      toast.error("Error during login!");
+      console.error("Error during login:", err);
+      toast.error("Login failed. Please try again.");
     }
   };
 
