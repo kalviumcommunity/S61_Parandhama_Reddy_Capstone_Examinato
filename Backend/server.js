@@ -8,6 +8,8 @@ const port = process.env.PORT || 8000;
 const router = require("./routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const authRoutes = require("./Authentication/AuthRoutes")
+
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -30,6 +32,7 @@ mongoose
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api", router);
+app.use('/auth', authRoutes);
 
 // Serve static files from the client
 app.use(express.static(path.join(__dirname, "client/dist")));

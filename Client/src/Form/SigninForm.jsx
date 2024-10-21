@@ -41,7 +41,7 @@ const SigninForm = () => {
 
     try {
       const response = await fetch(
-        "https://s61-parandhama-reddy-capstone-examinato-1.onrender.com/auth/signin",
+        "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/signin",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
