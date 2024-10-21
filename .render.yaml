@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: client
+    env: static
+    staticPublishPath: /build
+    dockerfilePath: ./client/Dockerfile
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://your-backend-service-name.onrender.com
+
+  - type: web
+    name: backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: your-mongo-connection-string
+      - key: JWT_SECRET
+        value: your-jwt-secret
