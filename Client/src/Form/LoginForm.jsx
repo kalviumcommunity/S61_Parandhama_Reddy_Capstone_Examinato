@@ -64,13 +64,11 @@ const LoginForm = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href =
-      "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/google";
+    window.location.href = "http://localhost:8000/auth/google";
   };
 
   const handleGithubLogin = () => {
-    window.location.href =
-      "https://s61-parandhama-reddy-capstone-examinato.onrender.com/auth/github";
+    window.location.href = "http://localhost:8000/auth/github";
   };
 
   return (

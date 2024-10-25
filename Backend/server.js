@@ -9,7 +9,7 @@ const router = require("./routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./Authentication/AuthRoutes")
-
+const auth = require("./Authentication/auth")
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -33,6 +33,7 @@ mongoose
 app.use("/uploads", express.static("uploads"));
 app.use("/api", router);
 app.use('/auth', authRoutes);
+app.use(auth);
 
 // Serve static files from the client
 app.use(express.static(path.join(__dirname, "client/dist")));
