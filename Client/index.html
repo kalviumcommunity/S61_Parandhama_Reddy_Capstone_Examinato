@@ -8,6 +8,15 @@
       name="google-site-verification"
       content="jrOPAamKD2jZolY5WmktC97IuybV-oOzVPDmYIgWHhQ"
     />
+    <meta
+      name="description"
+      content="Examinato - The best place for exam preparation and resources."
+    />
+    <meta name="keywords" content="Examinato, exams, resources, preparation" />
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://client-ten-navy.vercel.app/" />
+
     <title>Examinato</title>
 
     <!-- Google Analytics -->
@@ -23,6 +32,31 @@
       gtag("js", new Date());
 
       gtag("config", "G-N6WKF8LBVF");
+    </script>
+
+    <!-- Web Vitals Performance Tracking -->
+    <script src="https://unpkg.com/web-vitals@1.0.0/dist/web-vitals.umd.js"></script>
+    <script>
+      webVitals.getCLS(console.log);
+      webVitals.getFID(console.log);
+      webVitals.getLCP(console.log);
+    </script>
+
+    <!-- Redux DevTools -->
+    <script src="https://unpkg.com/redux-devtools-extension@latest/dist/redux-devtools-extension.js"></script>
+
+    <!-- OneSignal Push Notifications -->
+    <script
+      src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+      defer
+    ></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function (OneSignal) {
+        await OneSignal.init({
+          appId: "872fe5ea-9e8a-4caa-aff5-b36db277f105",
+        });
+      });
     </script>
   </head>
   <body>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import Chatbot from "./Chatbot"; // Import the Chatbot component
+import Chatbot from "./Chatbot";
 
 const QuizComponent = ({ handleAddQuestion }) => {
   const [questions, setQuestions] = useState([]);
@@ -13,7 +13,7 @@ const QuizComponent = ({ handleAddQuestion }) => {
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [questionFile, setQuestionFile] = useState(null);
   const [optionsFiles, setOptionsFiles] = useState(["", ""]);
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false); // State to manage chatbot visibility
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleAddOption = () => {
@@ -110,6 +110,9 @@ const QuizComponent = ({ handleAddQuestion }) => {
     <div>
       <div className="p-2 bg-white drop-shadow-lg sticky top-0 rounded-3xl">
         <Navbar />
+      </div>
+      <div className="text-center font-bold text-red-600 p-2 sticky top-20 my-3">
+        <h1>Please enter the correct answer in the format (Option x)</h1>
       </div>
       <div className="bg-[#E9EDC9] flex gap-5 h-screen p-5 box-border">
         <div className="flex-col justify-center items-center text-center w-[25%] gap-5 p-5 bg-white border h-auto overflow-hidden shadow-lg rounded">
