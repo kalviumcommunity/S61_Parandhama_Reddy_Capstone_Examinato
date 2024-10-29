@@ -111,8 +111,8 @@ const QuizComponent = ({ handleAddQuestion }) => {
       <div className="p-2 bg-white drop-shadow-lg sticky top-0 rounded-3xl">
         <Navbar />
       </div>
-      <div className="text-center font-bold text-red-600 p-2 sticky top-20 my-3">
-        <h1>Please enter the correct answer in the format (Option x)</h1>
+      <div className="text-center font-bold text-red-600 sticky top-20 my-3">
+        <h1 className="p-0">Please enter the correct answer in the format (Option x)</h1>
       </div>
       <div className="bg-[#E9EDC9] flex gap-5 h-screen p-5 box-border">
         <div className="flex-col justify-center items-center text-center w-[25%] gap-5 p-5 bg-white border h-auto overflow-hidden shadow-lg rounded">
@@ -235,13 +235,13 @@ const QuizComponent = ({ handleAddQuestion }) => {
       </div>
       <div>
         <button
-          className="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg"
+          className="fixed top-[85%] right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg"
           onClick={() => setIsChatbotOpen(true)}
         >
           <img
-            src="/path/to/chatbot-icon.png"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpBFR9PXDbAl96b6ccWXNEAqd0vYFyAN28lg&s"
             alt="Chatbot"
-            className="w-8 h-8"
+            className="w-14 h-12 rounded-full"
           />
         </button>
       </div>
