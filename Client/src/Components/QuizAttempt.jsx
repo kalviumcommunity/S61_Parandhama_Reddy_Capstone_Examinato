@@ -33,7 +33,7 @@ const QuizAttempt = () => {
             },
           }
         );
-        console.log(response.data)
+        // console.log(response.data)
 
         if (Array.isArray(response.data) && response.data.length > 0) {
           let filteredQuestions = response.data;

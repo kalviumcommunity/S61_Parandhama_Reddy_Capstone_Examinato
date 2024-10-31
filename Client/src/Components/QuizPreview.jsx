@@ -88,7 +88,7 @@ const QuizPreview = () => {
   };
 
   const handlePostQuiz = async () => {
-    console.log("Questions to be posted:", questions);
+    // console.log("Questions to be posted:", questions);
 
     // Show toast immediately when the quiz post starts
     toast.info("Posting quiz...");

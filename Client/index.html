@@ -17,9 +17,8 @@
     <!-- Canonical Link -->
     <link rel="canonical" href="https://client-ten-navy.vercel.app/" />
 
-     <!-- PWA Manifest -->
-     <link rel="manifest" href="/manifest.json" />
-
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
 
     <title>Examinato</title>
 
@@ -38,12 +37,23 @@
       gtag("config", "G-N6WKF8LBVF");
     </script>
 
-    <!-- Web Vitals Performance Tracking -->
-    <script src="https://unpkg.com/web-vitals@1.0.0/dist/web-vitals.umd.js"></script>
     <script>
-      webVitals.getCLS(console.log);
-      webVitals.getFID(console.log);
-      webVitals.getLCP(console.log);
+      function sendToAnalytics({ name, delta, id }) {
+        fetch(
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/vitals",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ metricName: name, value: delta, id: id }),
+            keepalive: true,
+          }
+        );
+      }
+      webVitals.getCLS(sendToAnalytics);
+      webVitals.getFID(sendToAnalytics);
+      webVitals.getLCP(sendToAnalytics);
+      webVitals.getFCP(sendToAnalytics);
+      webVitals.getTTFB(sendToAnalytics);
     </script>
 
     <!-- Redux DevTools -->
