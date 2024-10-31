@@ -30,7 +30,7 @@ const Quizzes = () => {
             },
           }
         );
-        console.log(response.data)
+        // console.log(response.data)
         setQuizData(response.data);
       } catch (error) {
         console.log(error)
@@ -41,7 +41,7 @@ const Quizzes = () => {
     const fetchAuthorFromToken = async () => {
       try {
         const token = getCookie("token");
-        console.log(token)
+        // console.log(token)
         if (token) {
           const base64Url = token.split(".")[1];
           const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
