@@ -131,9 +131,9 @@ const LandingPage = () => {
         </Text>
       </Box>
       <Box
-        position="fixed"
+        position="sticky"
         left="70%"
-        top="75%"
+        top="90%"
         w="20%"
         shadow="md"
         borderRadius="10px"
