@@ -22,6 +22,7 @@ const Navbar = () => {
       borderRadius="2xl"
       bg="white"
       p="3"
+      margin="2"
       direction={{ base: "row", md: "row" }}
     >
       <Image

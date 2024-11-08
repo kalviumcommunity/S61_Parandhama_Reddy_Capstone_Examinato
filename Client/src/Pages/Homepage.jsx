@@ -30,7 +30,7 @@ const HomePage = ({ topics, onStartQuiz }) => {
           <Button
             px={6}
             py={3}
-            bg="teal.500"
+            bg="teal.600"
             color="white"
             rounded="xl"
             _hover={{ bg: "teal.600" }}
