@@ -14,13 +14,6 @@
     />
     <meta name="keywords" content="Examinato, exams, resources, preparation" />
 
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://client-ten-navy.vercel.app/" />
-
-     <!-- PWA Manifest -->
-     <link rel="manifest" href="/manifest.json" />
-
-
     <title>Examinato</title>
 
     <!-- Google Analytics -->
@@ -38,22 +31,20 @@
       gtag("config", "G-N6WKF8LBVF");
     </script>
 
-    <!-- Web Vitals Performance Tracking -->
-    <script src="https://unpkg.com/web-vitals@1.0.0/dist/web-vitals.umd.js"></script>
     <script>
-      webVitals.getCLS(console.log);
-      webVitals.getFID(console.log);
-      webVitals.getLCP(console.log);
+      function sendToAnalytics({ name, delta, id }) {
+        fetch(
+          "https://s61-parandhama-reddy-capstone-examinato.onrender.com/api/vitals",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ metricName: name, value: delta, id: id }),
+            keepalive: true,
+          }
+        );
+      }
     </script>
 
-    <!-- Redux DevTools -->
-    <script src="https://unpkg.com/redux-devtools-extension@latest/dist/redux-devtools-extension.js"></script>
-
-    <!-- OneSignal Push Notifications -->
-    <script
-      src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
-      defer
-    ></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function (OneSignal) {
@@ -62,7 +53,7 @@
         });
       });
     </script>
-    <script type="module" crossorigin src="/assets/index-DOzb8qSy.js"></script>
+    <script type="module" crossorigin src="/assets/index-9cehv1fZ.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-B6klXWak.css">
   </head>
   <body>
