@@ -20,8 +20,9 @@ const QuizAttempt = () => {
       try {
         const token = getCookie("token");
         if (!token) {
-          setError("Unauthorized. Please log in.");
+          setError("Unauthorized. Please log in and try again.");
           setLoading(false);
+          navigate("/login");
           return;
         }
 
@@ -68,9 +69,15 @@ const QuizAttempt = () => {
   }, [type, selectedAuthor]);
 
   const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
+    try {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+      return null;
+    } catch (error) {
+      console.error("Error reading cookie:", error);
+      return null;
+    }
   };
 
   const handleAnswerChange = (questionId, option) => {
