@@ -151,7 +151,7 @@ const Quizzes = () => {
           <Box
             key={index}
             className="h-48 flex items-center justify-center bg-teal-500 text-white rounded-lg shadow-xl hover:shadow-2xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
-            onClick={() => navigate(`/quiz/${type}`)}
+            onClick={() => navigate(`/quiz/${type}?author=${selectedAuthor}`)}
           >
             <Text className="text-2xl font-bold">{type}</Text>
           </Box>
