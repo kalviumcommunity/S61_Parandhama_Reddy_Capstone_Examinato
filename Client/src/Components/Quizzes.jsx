@@ -9,7 +9,14 @@ import {
   Switch,
   FormControl,
   FormLabel,
+  Grid,
+  GridItem,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+const MotionGridItem = motion(GridItem);
 
 const Quizzes = () => {
   const [quizData, setQuizData] = useState([]);
@@ -18,6 +25,7 @@ const Quizzes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -30,36 +38,38 @@ const Quizzes = () => {
             },
           }
         );
-        // console.log(response.data)
         setQuizData(response.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setError("Failed to load quiz data.");
+        toast({
+          title: "Error",
+          description: "Failed to fetch quiz data.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       }
     };
 
     const fetchAuthorFromToken = async () => {
       try {
         const token = getCookie("token");
-        // console.log(token)
         if (token) {
           const base64Url = token.split(".")[1];
           const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
           const jsonPayload = decodeURIComponent(
             atob(base64)
               .split("")
-              .map((c) => {
-                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-              })
+              .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
               .join("")
           );
           const decodedToken = JSON.parse(jsonPayload);
 
           if (decodedToken.user && decodedToken.user.name) {
-            const userName = decodedToken.user.name;
             setAuthors([
               { id: "All", fullName: "All" },
-              { id: decodedToken.user.id, fullName: userName },
+              { id: decodedToken.user.id, fullName: decodedToken.user.name },
             ]);
           } else {
             setError("Failed to load authors.");
@@ -79,33 +89,56 @@ const Quizzes = () => {
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
+    return parts.length === 2 ? parts.pop().split(";").shift() : null;
   };
 
   const handleAuthorToggle = () => {
     setSelectedAuthor((prev) => (prev === "All" ? authors[1].id : "All"));
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading)
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Spinner size="xl" color="teal.500" />
+      </Box>
+    );
+
+  if (error)
+    return (
+      <Box textAlign="center" mt={10}>
+        <Text color="red.500" fontSize="lg">
+          {error}
+        </Text>
+      </Box>
+    );
 
   const filteredData =
     selectedAuthor === "All"
       ? quizData
       : quizData.filter((item) => item.author === selectedAuthor);
 
-  // Create unique types from the filtered data, normalizing to lowercase
   const uniqueTypes = Array.from(
     new Set(filteredData.map((item) => item.type.trim().toUpperCase()))
   );
 
   return (
-    <Box className="p-8 bg-yellow-200 min-h-screen">
-      <Box className="flex justify-between items-center mb-6">
+    <Box p={8} minH="100vh" bgGradient="linear(to-br, gray.50, teal.100)">
+      {/* Header */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={6}
+      >
         {authors.length > 1 && (
-          <FormControl className="flex items-center">
-            <FormLabel htmlFor="author-switch" mb="0" className="text-gray-600">
-              {selectedAuthor === "All" ? "All" : authors[1].fullName}
+          <FormControl display="flex" alignItems="center">
+            <FormLabel htmlFor="author-switch" mb="0" fontSize="lg">
+              {selectedAuthor === "All" ? "All Quizzes" : authors[1].fullName}
             </FormLabel>
             <Switch
               id="author-switch"
@@ -118,45 +151,88 @@ const Quizzes = () => {
         <Button
           colorScheme="red"
           size="md"
-          className="transition-all duration-300 ease-in-out transform hover:scale-105"
           onClick={() => navigate("/home")}
+          _hover={{ transform: "scale(1.05)", transition: "0.2s ease-in-out" }}
         >
           Leave Quiz
         </Button>
       </Box>
+
+      {/* Title */}
       <Heading
         as="h1"
-        className="text-3xl font-bold text-center text-gray-700 mb-6"
+        fontSize="4xl"
+        textAlign="center"
+        fontWeight="bold"
+        color="teal.700"
+        mb={4}
       >
         Available Quizzes
       </Heading>
-      <Text className="text-lg text-center text-gray-500 mb-4">
-        To start a quiz,{" "}
-        <Text as="span" className="text-teal-500 font-semibold">
-          select a topic below
-        </Text>
+      <Text fontSize="lg" textAlign="center" color="gray.600" mb={6}>
+        Select a topic to start the quiz!
       </Text>
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          base: "1fr",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-        }}
-        gap={8}
-        mt={8}
-        className="mx-auto max-w-5xl"
-      >
-        {uniqueTypes.map((type, index) => (
-          <Box
-            key={index}
-            className="h-48 flex items-center justify-center bg-teal-500 text-white rounded-lg shadow-xl hover:shadow-2xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
-            onClick={() => navigate(`/quiz/${type}?author=${selectedAuthor}`)}
-          >
-            <Text className="text-2xl font-bold">{type}</Text>
-          </Box>
-        ))}
-      </Box>
+
+      {/* Quizzes */}
+      {uniqueTypes.length === 0 ? (
+        <Text textAlign="center" fontSize="lg" color="gray.500">
+          No quizzes available.
+        </Text>
+      ) : (
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
+          gap={6}
+          mt={8}
+          mx="auto"
+          maxW="6xl"
+        >
+          {uniqueTypes.map((type, index) => (
+            <MotionGridItem
+              key={index}
+              p={6}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              bgGradient="linear(to-r, teal.500, teal.400)"
+              color="white"
+              fontSize="xl"
+              fontWeight="bold"
+              borderRadius="lg"
+              shadow="lg"
+              cursor="pointer"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0px 8px 25px rgba(0, 0, 0, 0.15)",
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition="0.3s ease-in-out"
+              onClick={() => navigate(`/quiz/${type}?author=${selectedAuthor}`)}
+              _before={{
+                content: '""',
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                top: "0",
+                left: "0",
+                borderRadius: "lg",
+                transition: "all 0.3s ease-in-out",
+                zIndex: "-1",
+              }}
+              _hover={{
+                _before: {
+                  transform: "scale(1.05)",
+                },
+              }}
+            >
+              {type}
+            </MotionGridItem>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 };
