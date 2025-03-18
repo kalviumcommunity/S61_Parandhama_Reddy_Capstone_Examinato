@@ -1,6 +1,9 @@
 # **Examinato** 🎓📝  
 A modern quiz platform that allows users to create and attempt quizzes with interactive features like image uploads, chat assistance, and seamless navigation.  
 
+## 🚀 **Live Demo**  
+Try it out here: **[Examinato Live](https://client-ten-navy.vercel.app/)**  
+
 ## 🚀 **Tech Stack**  
 - **Frontend**: React (with Vite for fast development)  
 - **Styling**: Chakra UI (for beautiful, responsive UI)  
@@ -14,8 +17,6 @@ A modern quiz platform that allows users to create and attempt quizzes with inte
 - 🤖 **Chatbot Assistance**: Get help while creating or attempting quizzes.  
 - 🔄 **Seamless Navigation**: Move between questions smoothly with an intuitive interface.
 
-## 🚀 **Live Demo**  
-Try it out here: **[Examinato Live](https://client-ten-navy.vercel.app/)**  
 
 ## 💡 **Inspiration**  
 This project is inspired by educational tools designed to improve knowledge retention and engagement through quizzes. The goal is to make learning interactive, enjoyable, and effective.  
